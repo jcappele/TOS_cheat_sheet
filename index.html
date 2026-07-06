@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,50 +22,66 @@
     <main class="app-main">
         <div class="tiles-container">
             <section class="tile thermal-tile" id="thermalTile">
-                <h2 class="tile-title">Temperature</h2>
+                <h2 class="tile-title">Thermal</h2>
                 <div class="button-group">
-                    <button class="btn-thermal btn-level" data-level="1" aria-label="Niveau 1" data-tooltip="Niveau 1 - Mild (0.5°C à 4.5°C | 33.0°F à 40.0°F)">Niveau 1</button>
-                    <button class="btn-thermal btn-level" data-level="2" aria-label="Niveau 2" data-tooltip="Niveau 2 - Moderate (0.0°C à 9.5°C | 32.0°F à 15.0°F)">Niveau 2</button>
-                    <button class="btn-thermal btn-level" data-level="3" aria-label="Niveau 3" data-tooltip="Niveau 3 - Significant (-13.3°C à -10.0°C | 8.0°F à 14°F)">Niveau 3</button>
-                    <button class="btn-thermal btn-level" data-level="4" aria-label="Niveau 4" data-tooltip="Niveau 4 - Frigid (-20.5°C à -13.9°C | -0.5°F à 7.0°F)">Niveau 4</button>
+                    <button class="btn-thermal btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Mild (0.5°C to 4.5°C | 33.0°F to 40.0°F)">Level 1</button>
+                    <button class="btn-thermal btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate (0.0°C to 9.5°C | 32.0°F to 15.0°F)">Level 2</button>
+                    <button class="btn-thermal btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Significant (-13.3°C to -10.0°C | 8.0°F to 14°F)">Level 3</button>
+                    <button class="btn-thermal btn-level" data-level="4" aria-label="Level 4" data-tooltip="Level 4 - Frigid (-20.5°C to -13.9°C | -0.5°F to 7.0°F)">Level 4</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="thermalCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
                 <div class="control-buttons">
-                    <button class="btn-control" id="thermalUndo" aria-label="Retirer le dernier point">&#8617; Retour</button>
-                    <button class="btn-control" id="thermalReset" aria-label="Réinitialiser la tuile">&#128465; Reset</button>
+                    <button class="btn-control" id="thermalUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="thermalReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
             </section>
             <section class="tile audio-tile" id="audioTile">
                 <h2 class="tile-title">Audio</h2>
                 <div class="button-group">
-                    <button class="btn-audio btn-level" data-level="1" aria-label="Niveau 1" data-tooltip="Level 1 - Unintelligible Sounds: Nonsensical sounds, incoherent speech and garbled noises with no discernible words or phrases.">Level 1</button>
-                    <button class="btn-audio btn-level" data-level="2" aria-label="Niveau 2" data-tooltip="Level 2 - Single Word Responses: Short, distinct words that, although minimal, are clear and direct.">Level 2</button>
-                    <button class="btn-audio btn-level" data-level="3" aria-label="Niveau 3" data-tooltip="Level 3 - Intelligible Phrases: Complete, understandable phrases and coherent speech.">Level 3</button>
+                    <button class="btn-audio btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Unintelligible Sounds: Nonsensical sounds, incoherent speech and garbled noises with no discernible words or phrases.">Level 1</button>
+                    <button class="btn-audio btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Single Word Responses: Short, distinct words that, although minimal, are clear and direct.">Level 2</button>
+                    <button class="btn-audio btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Intelligible Phrases: Complete, understandable phrases and coherent speech.">Level 3</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="audioCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
                 <div class="control-buttons">
-                    <button class="btn-control" id="audioUndo" aria-label="Retirer le dernier point">&#8617; Retour</button>
-                    <button class="btn-control" id="audioReset" aria-label="Réinitialiser la tuile">&#128465; Reset</button>
+                    <button class="btn-control" id="audioUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="audioReset" aria-label="Reset tile">&#128465; Reset</button>
+                </div>
+            </section>
+            <section class="tile emf-tile" id="emfTile">
+                <h2 class="tile-title">EMF</h2>
+                <div class="button-group">
+                    <button class="btn-emf btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Weak Anomalies (1.5 to 2.49 mG)">Level 1</button>
+                    <button class="btn-emf btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate Disturbances (2.55 to 9.99 mG)">Level 2</button>
+                    <button class="btn-emf btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Strong Emissions (10 to 19.99 mG)">Level 3</button>
+                    <button class="btn-emf btn-level" data-level="4" aria-label="Level 4" data-tooltip="Level 4 - Overwhelming Fields (20+ mG)">Level 4</button>
+                </div>
+                <div class="graph-container">
+                    <canvas id="emfCanvas" class="graph-canvas" width="800" height="180"></canvas>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn-control" id="emfUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="emfReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
             </section>
         </div>
     </main>
     <footer class="ghost-bar">
         <div class="ghost-bar-content" id="ghostBar">
-            <span class="ghost-placeholder">Top 3 des fantômes — à venir</span>
+            <span class="ghost-placeholder">Top 3 Ghosts — Coming Soon</span>
         </div>
     </footer>
     <div class="confirmation-overlay" id="confirmationOverlay">
         <div class="confirmation-modal">
             <h3 id="confirmationTitle">Confirmation</h3>
-            <p id="confirmationMessage">Êtes-vous sûr ?</p>
+            <p id="confirmationMessage">Are you sure?</p>
             <div class="confirmation-actions">
-                <button class="btn-confirm-cancel" id="confirmationCancel">Annuler</button>
-                <button class="btn-confirm-action" id="confirmationConfirm">Confirmer</button>
+                <button class="btn-confirm-cancel" id="confirmationCancel">Cancel</button>
+                <button class="btn-confirm-action" id="confirmationConfirm">Confirm</button>
             </div>
         </div>
     </div>
@@ -73,5 +89,6 @@
     <script src="js/timer.js"></script>
     <script src="js/thermal-tile.js"></script>
     <script src="js/audio-tile.js"></script>
+    <script src="js/emf-tile.js"></script>
 </body>
 </html>

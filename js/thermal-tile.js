@@ -7,19 +7,10 @@
 
   const STORAGE_KEY = 'tos-cheatsheet-thermal-points';
   const LEVEL_COLORS = {
-    1: '#4fc3f7',
-    2: '#29b6f6',
-    3: '#03a9f4',
-    4: '#0288d1'
-  };
-
-  const GLOBAL_LEVEL_COLORS = {
-    0: '#757575',
-    1: '#4fc3f7',
-    2: '#29b6f6',
-    3: '#03a9f4',
-    4: '#0288d1',
-    5: '#01579b'
+    1: getComputedColor('--graph-point-1'),
+    2: getComputedColor('--graph-point-2'),
+    3: getComputedColor('--graph-point-3'),
+    4: getComputedColor('--graph-point-4')
   };
 
   const state = {
@@ -48,6 +39,15 @@
     return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
   }
 
+  function getLevelColors() {
+    return {
+      1: getComputedColor('--graph-point-1'),
+      2: getComputedColor('--graph-point-2'),
+      3: getComputedColor('--graph-point-3'),
+      4: getComputedColor('--graph-point-4')
+    };
+  }
+
   function formatTimeShort(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
@@ -73,6 +73,7 @@
   function resetPoints() {
     state.points = [];
     state.maxDisplayTime = 60;
+    state.currentTime = 0;
     storePoints();
     render();
     renderGlobalProof();
@@ -101,191 +102,18 @@
   }
 
   function render() {
-    const ctx = state.ctx;
-    if (!ctx) return;
+    const canvas = state.canvas;
+    if (!canvas) return;
 
-    const { width, height } = getCanvasDimensions();
-    const padding = { top: 20, right: 20, bottom: 30, left: 40 };
-    const graphWidth = width - padding.left - padding.right;
-    const graphHeight = height - padding.top - padding.bottom;
-
-    ctx.clearRect(0, 0, width, height);
-
-    const bgColor = getComputedColor('--bg-primary');
-    const textColor = getComputedColor('--text-secondary');
-    const borderColor = getComputedColor('--border-color');
-
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let i = 0; i <= 4; i++) {
-      const y = padding.top + ((4 - i) / 4) * graphHeight;
-      ctx.moveTo(padding.left, y);
-      ctx.lineTo(padding.left + graphWidth, y);
-    }
-    ctx.stroke();
-
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    const timeStep = state.maxDisplayTime <= 120 ? 15 : 30;
-    for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
-      const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
-      ctx.moveTo(x, padding.top);
-      ctx.lineTo(x, padding.top + graphHeight);
-    }
-    ctx.stroke();
-
-    ctx.fillStyle = textColor;
-    ctx.font = '11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
-    ctx.textAlign = 'center';
-
-    for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
-      const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + graphHeight + 15;
-      ctx.fillText(formatTimeShort(t), x, y);
-    }
-
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 4; i++) {
-      const y = padding.top + ((4 - i) / 4) * graphHeight;
-      ctx.fillText(i, padding.left - 8, y + 4);
-    }
-
-    if (state.points.length === 0) return;
-
-    const pointsInRange = state.points.filter(p => p.time <= state.maxDisplayTime);
-    if (pointsInRange.length === 0) return;
-
-    ctx.strokeStyle = LEVEL_COLORS[1];
-    ctx.lineWidth = 2;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-
-    for (let i = 0; i < pointsInRange.length; i++) {
-      const p = pointsInRange[i];
-      const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((4 - p.level) / 4) * graphHeight;
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.stroke();
-
-    for (let i = 0; i < pointsInRange.length; i++) {
-      const p = pointsInRange[i];
-      const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((4 - p.level) / 4) * graphHeight;
-      const color = LEVEL_COLORS[p.level] || LEVEL_COLORS[1];
-
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = bgColor;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-    }
-
-    const currentTimeX = padding.left + (state.currentTime / state.maxDisplayTime) * graphWidth;
-    if (currentTimeX <= padding.left + graphWidth) {
-      ctx.strokeStyle = getComputedColor('--deezer-purple');
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(currentTimeX, padding.top);
-      ctx.lineTo(currentTimeX, padding.top + graphHeight);
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
+    const levelColors = getLevelColors();
+    GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 4, levelColors, { pointRadius: 4 });
   }
 
   function renderGlobalProof() {
     const canvas = document.getElementById('globalProofCanvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const container = canvas.parentElement;
-    const width = container.clientWidth;
-    const height = 200;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx.scale(dpr, dpr);
-
-    const padding = { top: 20, right: 20, bottom: 30, left: 40 };
-    const graphWidth = width - padding.left - padding.right;
-    const graphHeight = height - padding.top - padding.bottom;
-
-    ctx.clearRect(0, 0, width, height);
-
-    const bgColor = getComputedColor('--bg-primary');
-    const textColor = getComputedColor('--text-secondary');
-    const borderColor = getComputedColor('--border-color');
-
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + ((5 - i) / 5) * graphHeight;
-      ctx.moveTo(padding.left, y);
-      ctx.lineTo(padding.left + graphWidth, y);
-    }
-    ctx.stroke();
-
-    ctx.fillStyle = textColor;
-    ctx.font = '11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
-    ctx.textAlign = 'center';
-    const timeStep = state.maxDisplayTime <= 120 ? 15 : 30;
-    for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
-      const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + graphHeight + 15;
-      ctx.fillText(formatTimeShort(t), x, y);
-    }
-
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + ((5 - i) / 5) * graphHeight;
-      ctx.fillText(i, padding.left - 8, y + 4);
-    }
-
-    if (state.points.length === 0) return;
-
-    const pointsInRange = state.points.filter(p => p.time <= state.maxDisplayTime);
-    if (pointsInRange.length === 0) return;
-
-    for (let i = 0; i < pointsInRange.length; i++) {
-      const p = pointsInRange[i];
-      const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((5 - p.level) / 5) * graphHeight;
-      const color = GLOBAL_LEVEL_COLORS[p.level] || GLOBAL_LEVEL_COLORS[1];
-
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = bgColor;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-    }
-
-    const currentTimeX = padding.left + (state.currentTime / state.maxDisplayTime) * graphWidth;
-    if (currentTimeX <= padding.left + graphWidth) {
-      ctx.strokeStyle = getComputedColor('--deezer-purple');
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(currentTimeX, padding.top);
-      ctx.lineTo(currentTimeX, padding.top + graphHeight);
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
+    const levelColors = getLevelColors();
+    GraphRenderer.renderGlobalProof(canvas, state.points, state.maxDisplayTime, state.currentTime, levelColors);
   }
 
   function showConfirmation(title, message, onConfirm) {
@@ -328,8 +156,8 @@
 
     document.getElementById('thermalReset').addEventListener('click', function () {
       showConfirmation(
-        'Reset de la tuile thermique',
-        'Êtes-vous sûr de vouloir supprimer tous les points ?',
+        'Reset Thermal Tile',
+        'Are you sure you want to delete all points?',
         function () { resetPoints(); }
       );
     });
@@ -372,7 +200,8 @@
     updateTimer: updateTimer,
     addPoint: addPoint,
     resetPoints: resetPoints,
-    showConfirmation: showConfirmation
+    showConfirmation: showConfirmation,
+    renderGlobalProof: renderGlobalProof
   };
 
   init();

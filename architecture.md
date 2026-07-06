@@ -18,7 +18,10 @@ TOS_cheat_sheet/
 └── js/
     ├── theme.js            # Gestion du thème (toggle + localStorage)
     ├── timer.js            # Timer global START/STOP + RESET (avec confirmation)
-    └── thermal-tile.js    # Tuile de preuve thermique (Temperature)
+    ├── graph-renderer.js  # Renderer partagé pour les graphiques (Canvas)
+    ├── thermal-tile.js    # Tuile de preuve thermique (Temperature)
+    ├── audio-tile.js      # Tuile de preuve audio
+    └── emf-tile.js        # Tuile de preuve EMF
 ```
 
 ## Architecture technique

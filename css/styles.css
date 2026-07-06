@@ -35,6 +35,11 @@
   --btn-reset-hover: #ffb74d;
   --btn-reset-disabled: #4a4a55;
 
+  /* Graph colors */
+  --graph-line-color: #66bb6a;
+  --graph-point-color: #66bb6a;
+  --graph-grid-color: var(--border-color);
+
   --header-height: 70px;
   --footer-height: 60px;
 }
@@ -198,10 +203,11 @@ body {
 }
 
 .thermal-tile,
-.audio-tile {
+.audio-tile,
+.emf-tile {
   flex: 0 0 auto;
-  min-width: 320px;
-  max-width: 450px;
+  min-width: 240px;
+  max-width: 320px;
 }
 
 .zone-placeholder {
@@ -264,16 +270,16 @@ body {
 .tile {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
 }
 
 .tile-title {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
@@ -283,39 +289,43 @@ body {
 .graph-container {
   width: 100%;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
 }
 
 canvas.graph-canvas {
   width: 100%;
-  height: 180px;
+  height: 140px;
   display: block;
 }
 
 .button-group {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
   justify-content: center;
 }
 
 .btn-level {
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
   border: 2px solid var(--border-color);
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
+  white-space: normal;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .btn-level:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  transform: scale(1.03);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .btn-level:active {
@@ -347,84 +357,103 @@ canvas.graph-canvas {
   opacity: 1;
 }
 
-/* Couleurs thermiques */
-.btn-thermal[data-level="1"] {
+/* Couleurs thermiques — neutre par défaut, bleu ciel au survol */
+.btn-thermal {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-thermal[data-level="1"]:hover {
+  background-color: rgba(79, 195, 247, 0.2);
   border-color: #4fc3f7;
   color: #4fc3f7;
 }
 
-.btn-thermal[data-level="1"]:hover {
-  background-color: rgba(79, 195, 247, 0.1);
-}
-
-.btn-thermal[data-level="2"] {
+.btn-thermal[data-level="2"]:hover {
+  background-color: rgba(41, 182, 246, 0.2);
   border-color: #29b6f6;
   color: #29b6f6;
 }
 
-.btn-thermal[data-level="2"]:hover {
-  background-color: rgba(41, 182, 246, 0.1);
-}
-
-.btn-thermal[data-level="3"] {
+.btn-thermal[data-level="3"]:hover {
+  background-color: rgba(3, 169, 244, 0.2);
   border-color: #03a9f4;
   color: #03a9f4;
 }
 
-.btn-thermal[data-level="3"]:hover {
-  background-color: rgba(3, 169, 244, 0.1);
-}
-
-.btn-thermal[data-level="4"] {
+.btn-thermal[data-level="4"]:hover {
+  background-color: rgba(2, 136, 209, 0.2);
   border-color: #0288d1;
   color: #0288d1;
 }
 
-.btn-thermal[data-level="4"]:hover {
-  background-color: rgba(2, 136, 209, 0.1);
+/* Couleurs audio — gradient de blanc à couleur saturée */
+.btn-audio {
+  border-color: var(--border-color);
+  color: var(--text-primary);
 }
 
-/* Couleurs audio */
-.btn-audio[data-level="1"] {
+.btn-audio[data-level="1"]:hover {
+  background-color: rgba(239, 83, 80, 0.15);
   border-color: #ef5350;
   color: #ef5350;
 }
 
-.btn-audio[data-level="1"]:hover {
-  background-color: rgba(239, 83, 80, 0.1);
-}
-
-.btn-audio[data-level="2"] {
+.btn-audio[data-level="2"]:hover {
+  background-color: rgba(255, 167, 38, 0.15);
   border-color: #ffa726;
   color: #ffa726;
 }
 
-.btn-audio[data-level="2"]:hover {
-  background-color: rgba(255, 167, 38, 0.1);
-}
-
-.btn-audio[data-level="3"] {
+.btn-audio[data-level="3"]:hover {
+  background-color: rgba(102, 187, 106, 0.15);
   border-color: #66bb6a;
   color: #66bb6a;
 }
 
-.btn-audio[data-level="3"]:hover {
-  background-color: rgba(102, 187, 106, 0.1);
+/* Couleurs EMF — gradient de blanc à violet saturé */
+.btn-emf {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-emf[data-level="1"]:hover {
+  background-color: rgba(171, 71, 188, 0.15);
+  border-color: #ab47bc;
+  color: #ab47bc;
+}
+
+.btn-emf[data-level="2"]:hover {
+  background-color: rgba(186, 104, 200, 0.15);
+  border-color: #ba68c8;
+  color: #ba68c8;
+}
+
+.btn-emf[data-level="3"]:hover {
+  background-color: rgba(171, 71, 188, 0.15);
+  border-color: #ab47bc;
+  color: #ab47bc;
+}
+
+.btn-emf[data-level="4"]:hover {
+  background-color: rgba(156, 39, 176, 0.15);
+  border-color: #9c27b0;
+  color: #9c27b0;
 }
 
 .control-buttons {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   justify-content: center;
 }
 
 .btn-control {
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 5px 10px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -432,7 +461,7 @@ canvas.graph-canvas {
 
 .btn-control:hover {
   background-color: var(--bg-hover);
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 /* --- Popup de confirmation --- */

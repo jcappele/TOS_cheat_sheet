@@ -13,9 +13,10 @@
 2. **Portée Limitée :** 50 à 100 lignes de code maximum par itération, ou modification d'un seul fichier.
 3. **Validation Systématique :** Test utilisateur obligatoire (via Live Server) après chaque modification.
 4. **Normes de Code :**
-   - Architecture strictement modulaire (aucun JS inline dans le HTML).
-   - **Aucun commentaire en ligne** dans le code.
-   - Chaque méthode publique doit être précédée d'un `//Summary` descriptif.
+    - Architecture strictement modulaire (aucun JS inline dans le HTML).
+    - **Aucun commentaire en ligne** dans le code.
+    - Chaque méthode publique doit être précédée d'un `//Summary` descriptif.
+    - **Couleurs du thème** — Utiliser `getLevelColors()` pour récupérer les couleurs dynamiquement et les passer aux fonctions de rendu.
 
 ---
 

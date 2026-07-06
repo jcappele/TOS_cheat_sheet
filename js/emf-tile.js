@@ -1,15 +1,16 @@
 /* ============================================
-   TOS CheatSheet - Tuile Audio
+   TOS CheatSheet - Tuile de Preuve EMF
    ============================================ */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'tos-cheatsheet-audio-points';
+  const STORAGE_KEY = 'tos-cheatsheet-emf-points';
   const LEVEL_COLORS = {
-    1: getComputedColor('--graph-point-1'),
-    2: getComputedColor('--graph-point-2'),
-    3: getComputedColor('--graph-point-3')
+    1: '#ab47bc',
+    2: '#ba68c8',
+    3: '#ce93d8',
+    4: '#9c27b0'
   };
 
   const state = {
@@ -90,7 +91,8 @@
     return {
       1: getComputedColor('--graph-point-1'),
       2: getComputedColor('--graph-point-2'),
-      3: getComputedColor('--graph-point-3')
+      3: getComputedColor('--graph-point-3'),
+      4: getComputedColor('--graph-point-4')
     };
   }
 
@@ -99,7 +101,7 @@
     if (!canvas) return;
 
     const levelColors = getLevelColors();
-    GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 3, levelColors, { pointRadius: 4 });
+    GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 4, levelColors, { pointRadius: 4 });
   }
 
   function showConfirmation(title, message, onConfirm) {
@@ -121,30 +123,30 @@
   }
 
   function init() {
-    state.canvas = document.getElementById('audioCanvas');
+    state.canvas = document.getElementById('emfCanvas');
     state.ctx = state.canvas.getContext('2d');
 
     if (!state.canvas || !state.ctx) return;
 
     state.points = getStoredPoints();
 
-    var audioButtons = document.querySelectorAll('.btn-audio');
-    for (var i = 0; i < audioButtons.length; i++) {
-      audioButtons[i].addEventListener('click', (function (btn) {
+    var emfButtons = document.querySelectorAll('.btn-emf');
+    for (var i = 0; i < emfButtons.length; i++) {
+      emfButtons[i].addEventListener('click', (function (btn) {
         return function () {
           var level = parseInt(btn.getAttribute('data-level'), 10);
           addPoint(level);
         };
-      })(audioButtons[i]));
+      })(emfButtons[i]));
     }
 
-    document.getElementById('audioUndo').addEventListener('click', function () {
+    document.getElementById('emfUndo').addEventListener('click', function () {
       removeLastPoint();
     });
 
-    document.getElementById('audioReset').addEventListener('click', function () {
+    document.getElementById('emfReset').addEventListener('click', function () {
       showConfirmation(
-        'Reset Audio Tile',
+        'Reset EMF Tile',
         'Are you sure you want to delete all points?',
         function () { resetPoints(); }
       );
@@ -165,7 +167,7 @@
     render();
   }
 
-  window.__audioTile = {
+  window.__emfTile = {
     updateTimer: updateTimer,
     addPoint: addPoint,
     resetPoints: resetPoints,
