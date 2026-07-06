@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOS CheatSheet</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <h1 class="app-title">TOS CheatSheet</h1>
+            <button class="btn btn-reset" id="btnReset" aria-label="Réinitialiser le timer">RESET</button>
+        </div>
+        <div class="header-center">
+            <div class="timer-display" id="globalTimer">00:00</div>
+        </div>
+        <div class="header-right">
+            <button class="btn btn-start-stop" id="btnStartStop" aria-label="Démarrer l'investigation">START</button>
+        </div>
+    </header>
+    <main class="app-main">
+        <section class="tile thermal-tile" id="thermalTile">
+            <h2 class="tile-title">Temperature</h2>
+            <div class="thermal-buttons">
+                <button class="btn-thermal" data-level="1" aria-label="Niveau 1" data-tooltip="Niveau 1 - Mild (0.5°C à 4.5°C | 33.0°F à 40.0°F)">Niveau 1</button>
+                <button class="btn-thermal" data-level="2" aria-label="Niveau 2" data-tooltip="Niveau 2 - Moderate (0.0°C à 9.5°C | 32.0°F à 15.0°F)">Niveau 2</button>
+                <button class="btn-thermal" data-level="3" aria-label="Niveau 3" data-tooltip="Niveau 3 - Significant (-13.3°C à -10.0°C | 8.0°F à 14°F)">Niveau 3</button>
+                <button class="btn-thermal" data-level="4" aria-label="Niveau 4" data-tooltip="Niveau 4 - Frigid (-20.5°C à -13.9°C | -0.5°F à 7.0°F)">Niveau 4</button>
+            </div>
+            <div class="thermal-graph-container">
+                <canvas id="thermalCanvas" width="800" height="200"></canvas>
+            </div>
+            <div class="thermal-controls">
+                <button class="btn-thermal-control" id="thermalUndo" aria-label="Retirer le dernier point">&#8617; Retour</button>
+                <button class="btn-thermal-control" id="thermalReset" aria-label="Réinitialiser la tuile">&#128465; Reset</button>
+            </div>
+        </section>
+    </main>
+    <footer class="ghost-bar">
+        <div class="ghost-bar-content" id="ghostBar">
+            <span class="ghost-placeholder">Top 3 des fantômes — à venir</span>
+        </div>
+    </footer>
+    <div class="confirmation-overlay" id="confirmationOverlay">
+        <div class="confirmation-modal">
+            <h3 id="confirmationTitle">Confirmation</h3>
+            <p id="confirmationMessage">Êtes-vous sûr ?</p>
+            <div class="confirmation-actions">
+                <button class="btn-confirm-cancel" id="confirmationCancel">Annuler</button>
+                <button class="btn-confirm-action" id="confirmationConfirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/theme.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/thermal-tile.js"></script>
+</body>
+</html>
