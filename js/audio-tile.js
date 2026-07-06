@@ -1,25 +1,15 @@
 /* ============================================
-   TOS CheatSheet - Tuile de Preuve Thermale
+   TOS CheatSheet - Tuile Audio
    ============================================ */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'tos-cheatsheet-thermal-points';
+  const STORAGE_KEY = 'tos-cheatsheet-audio-points';
   const LEVEL_COLORS = {
-    1: '#4fc3f7',
-    2: '#29b6f6',
-    3: '#03a9f4',
-    4: '#0288d1'
-  };
-
-  const GLOBAL_LEVEL_COLORS = {
-    0: '#757575',
-    1: '#4fc3f7',
-    2: '#29b6f6',
-    3: '#03a9f4',
-    4: '#0288d1',
-    5: '#01579b'
+    1: '#ef5350',
+    2: '#ffa726',
+    3: '#66bb6a'
   };
 
   const state = {
@@ -27,8 +17,7 @@
     currentTime: 0,
     maxDisplayTime: 60,
     canvas: null,
-    ctx: null,
-    onConfirmCallback: null
+    ctx: null
   };
 
   function getStoredPoints() {
@@ -58,7 +47,6 @@
     state.points.push({ time: state.currentTime, level: level });
     storePoints();
     render();
-    renderGlobalProof();
   }
 
   function removeLastPoint() {
@@ -66,7 +54,6 @@
       state.points.pop();
       storePoints();
       render();
-      renderGlobalProof();
     }
   }
 
@@ -75,7 +62,6 @@
     state.maxDisplayTime = 60;
     storePoints();
     render();
-    renderGlobalProof();
   }
 
   function updateTimer(seconds) {
@@ -84,7 +70,6 @@
       state.maxDisplayTime += 60;
     }
     render();
-    renderGlobalProof();
   }
 
   function getCanvasDimensions() {
@@ -118,28 +103,17 @@
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    for (let i = 0; i <= 4; i++) {
-      const y = padding.top + ((4 - i) / 4) * graphHeight;
+    for (let i = 0; i <= 3; i++) {
+      const y = padding.top + ((3 - i) / 3) * graphHeight;
       ctx.moveTo(padding.left, y);
       ctx.lineTo(padding.left + graphWidth, y);
-    }
-    ctx.stroke();
-
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    const timeStep = state.maxDisplayTime <= 120 ? 15 : 30;
-    for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
-      const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
-      ctx.moveTo(x, padding.top);
-      ctx.lineTo(x, padding.top + graphHeight);
     }
     ctx.stroke();
 
     ctx.fillStyle = textColor;
     ctx.font = '11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
     ctx.textAlign = 'center';
-
+    const timeStep = state.maxDisplayTime <= 120 ? 15 : 30;
     for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
       const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
       const y = padding.top + graphHeight + 15;
@@ -147,8 +121,8 @@
     }
 
     ctx.textAlign = 'right';
-    for (let i = 0; i <= 4; i++) {
-      const y = padding.top + ((4 - i) / 4) * graphHeight;
+    for (let i = 0; i <= 3; i++) {
+      const y = padding.top + ((3 - i) / 3) * graphHeight;
       ctx.fillText(i, padding.left - 8, y + 4);
     }
 
@@ -166,7 +140,7 @@
     for (let i = 0; i < pointsInRange.length; i++) {
       const p = pointsInRange[i];
       const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((4 - p.level) / 4) * graphHeight;
+      const y = padding.top + ((3 - p.level) / 3) * graphHeight;
       if (i === 0) {
         ctx.moveTo(x, y);
       } else {
@@ -178,96 +152,12 @@
     for (let i = 0; i < pointsInRange.length; i++) {
       const p = pointsInRange[i];
       const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((4 - p.level) / 4) * graphHeight;
+      const y = padding.top + ((3 - p.level) / 3) * graphHeight;
       const color = LEVEL_COLORS[p.level] || LEVEL_COLORS[1];
 
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = bgColor;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-    }
-
-    const currentTimeX = padding.left + (state.currentTime / state.maxDisplayTime) * graphWidth;
-    if (currentTimeX <= padding.left + graphWidth) {
-      ctx.strokeStyle = getComputedColor('--deezer-purple');
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(currentTimeX, padding.top);
-      ctx.lineTo(currentTimeX, padding.top + graphHeight);
-      ctx.stroke();
-      ctx.setLineDash([]);
-    }
-  }
-
-  function renderGlobalProof() {
-    const canvas = document.getElementById('globalProofCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const container = canvas.parentElement;
-    const width = container.clientWidth;
-    const height = 200;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    ctx.scale(dpr, dpr);
-
-    const padding = { top: 20, right: 20, bottom: 30, left: 40 };
-    const graphWidth = width - padding.left - padding.right;
-    const graphHeight = height - padding.top - padding.bottom;
-
-    ctx.clearRect(0, 0, width, height);
-
-    const bgColor = getComputedColor('--bg-primary');
-    const textColor = getComputedColor('--text-secondary');
-    const borderColor = getComputedColor('--border-color');
-
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + ((5 - i) / 5) * graphHeight;
-      ctx.moveTo(padding.left, y);
-      ctx.lineTo(padding.left + graphWidth, y);
-    }
-    ctx.stroke();
-
-    ctx.fillStyle = textColor;
-    ctx.font = '11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
-    ctx.textAlign = 'center';
-    const timeStep = state.maxDisplayTime <= 120 ? 15 : 30;
-    for (let t = 0; t <= state.maxDisplayTime; t += timeStep) {
-      const x = padding.left + (t / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + graphHeight + 15;
-      ctx.fillText(formatTimeShort(t), x, y);
-    }
-
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + ((5 - i) / 5) * graphHeight;
-      ctx.fillText(i, padding.left - 8, y + 4);
-    }
-
-    if (state.points.length === 0) return;
-
-    const pointsInRange = state.points.filter(p => p.time <= state.maxDisplayTime);
-    if (pointsInRange.length === 0) return;
-
-    for (let i = 0; i < pointsInRange.length; i++) {
-      const p = pointsInRange[i];
-      const x = padding.left + (p.time / state.maxDisplayTime) * graphWidth;
-      const y = padding.top + ((5 - p.level) / 5) * graphHeight;
-      const color = GLOBAL_LEVEL_COLORS[p.level] || GLOBAL_LEVEL_COLORS[1];
-
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.strokeStyle = bgColor;
@@ -295,60 +185,45 @@
 
     titleEl.textContent = title;
     messageEl.textContent = message;
-    state.onConfirmCallback = onConfirm;
 
     overlay.classList.add('is-visible');
-  }
 
-  function hideConfirmation() {
-    const overlay = document.getElementById('confirmationOverlay');
-    overlay.classList.remove('is-visible');
-    state.onConfirmCallback = null;
+    var onConfirmHandler = function () {
+      onConfirm();
+      overlay.removeEventListener('click', onConfirmHandler);
+    };
+
+    overlay.addEventListener('click', onConfirmHandler);
   }
 
   function init() {
-    state.canvas = document.getElementById('thermalCanvas');
+    state.canvas = document.getElementById('audioCanvas');
     state.ctx = state.canvas.getContext('2d');
 
     if (!state.canvas || !state.ctx) return;
 
     state.points = getStoredPoints();
 
-    const thermalButtons = document.querySelectorAll('.btn-thermal');
-    thermalButtons.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const level = parseInt(this.getAttribute('data-level'), 10);
-        addPoint(level);
-      });
-    });
+    var audioButtons = document.querySelectorAll('.btn-audio');
+    for (var i = 0; i < audioButtons.length; i++) {
+      audioButtons[i].addEventListener('click', (function (btn) {
+        return function () {
+          var level = parseInt(btn.getAttribute('data-level'), 10);
+          addPoint(level);
+        };
+      })(audioButtons[i]));
+    }
 
-    document.getElementById('thermalUndo').addEventListener('click', function () {
+    document.getElementById('audioUndo').addEventListener('click', function () {
       removeLastPoint();
     });
 
-    document.getElementById('thermalReset').addEventListener('click', function () {
+    document.getElementById('audioReset').addEventListener('click', function () {
       showConfirmation(
-        'Reset de la tuile thermique',
+        'Reset de la tuile audio',
         'Êtes-vous sûr de vouloir supprimer tous les points ?',
         function () { resetPoints(); }
       );
-    });
-
-    document.getElementById('confirmationCancel').addEventListener('click', function () {
-      hideConfirmation();
-    });
-
-    document.getElementById('confirmationConfirm').addEventListener('click', function () {
-      if (state.onConfirmCallback) {
-        state.onConfirmCallback();
-      }
-      hideConfirmation();
-    });
-
-    document.getElementById('confirmationOverlay').addEventListener('click', function (e) {
-      if (e.target === this) {
-        hideConfirmation();
-      }
     });
 
     document.addEventListener('timerTick', function (e) {
@@ -361,18 +236,15 @@
 
     window.addEventListener('resize', function () {
       render();
-      renderGlobalProof();
     });
 
     render();
-    renderGlobalProof();
   }
 
-  window.__thermalTile = {
+  window.__audioTile = {
     updateTimer: updateTimer,
     addPoint: addPoint,
-    resetPoints: resetPoints,
-    showConfirmation: showConfirmation
+    resetPoints: resetPoints
   };
 
   init();

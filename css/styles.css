@@ -189,6 +189,21 @@ body {
   padding: 24px;
 }
 
+.tiles-container {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.thermal-tile,
+.audio-tile {
+  flex: 0 0 auto;
+  min-width: 320px;
+  max-width: 450px;
+}
+
 .zone-placeholder {
   text-align: center;
   color: var(--text-secondary);
@@ -250,51 +265,64 @@ body {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 20px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 900px;
+  gap: 12px;
   width: 100%;
 }
 
 .tile-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
   margin: 0;
 }
 
-.thermal-buttons {
+.graph-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+canvas.graph-canvas {
+  width: 100%;
+  height: 180px;
+  display: block;
+}
+
+.button-group {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
 }
 
-.btn-thermal {
-  padding: 10px 20px;
+.btn-level {
+  padding: 8px 16px;
   border-radius: 8px;
   border: 2px solid var(--border-color);
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
 }
 
-.btn-thermal:hover {
+.btn-level:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.btn-thermal:active {
+.btn-level:active {
   transform: scale(0.98);
 }
 
-.btn-thermal::after {
+.btn-level::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: calc(100% + 8px);
@@ -305,7 +333,7 @@ body {
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 400;
   white-space: nowrap;
   opacity: 0;
@@ -315,43 +343,94 @@ body {
   box-shadow: 0 2px 8px var(--shadow-color);
 }
 
-.btn-thermal:hover::after {
+.btn-level:hover::after {
   opacity: 1;
 }
 
-.thermal-graph-container {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
+/* Couleurs thermiques */
+.btn-thermal[data-level="1"] {
+  border-color: #4fc3f7;
+  color: #4fc3f7;
 }
 
-#thermalCanvas {
-  width: 100%;
-  height: 200px;
-  display: block;
+.btn-thermal[data-level="1"]:hover {
+  background-color: rgba(79, 195, 247, 0.1);
 }
 
-.thermal-controls {
+.btn-thermal[data-level="2"] {
+  border-color: #29b6f6;
+  color: #29b6f6;
+}
+
+.btn-thermal[data-level="2"]:hover {
+  background-color: rgba(41, 182, 246, 0.1);
+}
+
+.btn-thermal[data-level="3"] {
+  border-color: #03a9f4;
+  color: #03a9f4;
+}
+
+.btn-thermal[data-level="3"]:hover {
+  background-color: rgba(3, 169, 244, 0.1);
+}
+
+.btn-thermal[data-level="4"] {
+  border-color: #0288d1;
+  color: #0288d1;
+}
+
+.btn-thermal[data-level="4"]:hover {
+  background-color: rgba(2, 136, 209, 0.1);
+}
+
+/* Couleurs audio */
+.btn-audio[data-level="1"] {
+  border-color: #ef5350;
+  color: #ef5350;
+}
+
+.btn-audio[data-level="1"]:hover {
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
+.btn-audio[data-level="2"] {
+  border-color: #ffa726;
+  color: #ffa726;
+}
+
+.btn-audio[data-level="2"]:hover {
+  background-color: rgba(255, 167, 38, 0.1);
+}
+
+.btn-audio[data-level="3"] {
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+
+.btn-audio[data-level="3"]:hover {
+  background-color: rgba(102, 187, 106, 0.1);
+}
+
+.control-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
 }
 
-.btn-thermal-control {
+.btn-control {
   padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-thermal-control:hover {
+.btn-control:hover {
   background-color: var(--bg-hover);
   transform: scale(1.05);
 }
