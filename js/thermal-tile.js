@@ -106,7 +106,7 @@
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = 0; i <= 4; i++) {
-      const y = padding.top + (i / 4) * graphHeight;
+      const y = padding.top + ((4 - i) / 4) * graphHeight;
       ctx.moveTo(padding.left, y);
       ctx.lineTo(padding.left + graphWidth, y);
     }
@@ -134,8 +134,8 @@
     }
 
     ctx.textAlign = 'right';
-    for (let i = 4; i >= 0; i--) {
-      const y = padding.top + (i / 4) * graphHeight;
+    for (let i = 0; i <= 4; i++) {
+      const y = padding.top + ((4 - i) / 4) * graphHeight;
       ctx.fillText(i, padding.left - 8, y + 4);
     }
 
