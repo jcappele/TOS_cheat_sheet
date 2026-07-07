@@ -3,9 +3,9 @@
    ============================================ */
 
 .uv-tile {
-  --graph-point-1: #e6d5f5;
-  --graph-point-2: #b388ff;
-  --graph-point-3: #7c4dff;
+  --graph-point-1: #d9adff;
+  --graph-point-2: #975bff;
+  --graph-point-3: #970eff;
 }
 
 .uv-tile .btn-uv {
@@ -15,21 +15,21 @@
 
 .uv-tile .btn-uv[data-level="1"]:hover,
 .uv-tile .btn-uv[data-level="1"].active {
-  background-color: #7a6a8a;
+  background-color: #705b81;
   border-color: var(--graph-point-1);
   color: var(--graph-point-1);
 }
 
 .uv-tile .btn-uv[data-level="2"]:hover,
 .uv-tile .btn-uv[data-level="2"].active {
-  background-color: #6a5a9a;
+  background-color: #66358d;
   border-color: var(--graph-point-2);
   color: var(--graph-point-2);
 }
 
 .uv-tile .btn-uv[data-level="3"]:hover,
 .uv-tile .btn-uv[data-level="3"].active {
-  background-color: #4a2a8a;
+  background-color: #530c89;
   border-color: var(--graph-point-3);
   color: var(--graph-point-3);
 }

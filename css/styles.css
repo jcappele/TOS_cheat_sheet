@@ -3,17 +3,17 @@
    ============================================ */
 
 /* Import des modules dans l'ordre */
-@import url('01-variables.css');
-@import url('02-reset-base.css');
-@import url('03-header.css');
-@import url('04-main.css');
-@import url('05-tiles.css');
-@import url('06-tile-thermal.css');
-@import url('07-tile-audio.css');
-@import url('08-tile-emf.css');
-@import url('09-tile-radiation.css');
-@import url('10-tile-uv.css');
-@import url('11-tile-writing.css');
-@import url('12-tile-behavior.css');
-@import url('09-popup.css');
-@import url('10-responsive.css');
+@import url('variables.css');
+@import url('reset-base.css');
+@import url('header.css');
+@import url('main.css');
+@import url('tiles.css');
+@import url('tile-thermal.css');
+@import url('tile-audio.css');
+@import url('tile-emf.css');
+@import url('tile-radiation.css');
+@import url('tile-uv.css');
+@import url('tile-writing.css');
+@import url('tile-counter.css');
+@import url('popup.css');
+@import url('responsive.css');

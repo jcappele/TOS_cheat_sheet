@@ -46,14 +46,14 @@
   gap: 8px;
   width: 100%;
   max-width: 500px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
-.behavior-tile {
+.tile-counter {
   flex: 0 0 auto;
-  min-width: 180px;
-  max-width: 240px;
+  min-width: 90px;
+  max-width: 120px;
 }
 
 /* --- Section Fantômes --- */

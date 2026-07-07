@@ -1,13 +1,13 @@
 /* ============================================
-   TOS CheatSheet - Tuiles de Comportements
+   TOS CheatSheet - Tuiles Counter (Comportements quantifiables)
    ============================================ */
 
-.behavior-tile {
+.tile-counter {
   --graph-point-1: #ffd700;
   --graph-point-2: #ff8c00;
 }
 
-.behavior-tile .btn-behavior {
+.tile-counter .btn-behavior {
   border-color: var(--border-color);
   color: var(--text-primary);
   padding: 8px 16px;
@@ -20,16 +20,16 @@
   text-align: center;
 }
 
-.behavior-tile .btn-behavior:hover {
+.tile-counter .btn-behavior:hover {
   transform: scale(1.05);
   box-shadow: 0 2px 8px var(--shadow-color);
 }
 
-.behavior-tile .btn-behavior:active {
+.tile-counter .btn-behavior:active {
   transform: scale(0.95);
 }
 
-.behavior-tile .btn-behavior.active {
+.tile-counter .btn-behavior.active {
   background-color: #5a5a3a;
   border-color: var(--graph-point-1);
   color: var(--graph-point-1);
