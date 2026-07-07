@@ -1,0 +1,81 @@
+/* ============================================
+   TOS CheatSheet - Tuiles de Comportements
+   ============================================ */
+
+.behavior-tile {
+  --graph-point-1: #ffd700;
+  --graph-point-2: #ff8c00;
+}
+
+.behavior-tile .btn-behavior {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+  text-align: center;
+}
+
+.behavior-tile .btn-behavior:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.behavior-tile .btn-behavior:active {
+  transform: scale(0.95);
+}
+
+.behavior-tile .btn-behavior.active {
+  background-color: #5a5a3a;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.counter-display {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 6px 0;
+}
+
+.counter-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.btn-counter {
+  padding: 4px 12px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-counter:hover {
+  background-color: var(--bg-hover);
+  transform: scale(1.03);
+}
+
+.btn-counter:active {
+  transform: scale(0.97);
+}
+
+.btn-counter.btn-increment {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.btn-counter.btn-decrement {
+  border-color: #f44336;
+  color: #f44336;
+}

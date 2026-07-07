@@ -1,17 +1,11 @@
 /* ============================================
-   TOS CheatSheet - Tuile de Preuve EMF
+   TOS CheatSheet - Tuile Audio
    ============================================ */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'tos-cheatsheet-emf-points';
-  const LEVEL_COLORS = {
-    1: '#ab47bc',
-    2: '#ba68c8',
-    3: '#ce93d8',
-    4: '#9c27b0'
-  };
+  const STORAGE_KEY = 'tos-cheatsheet-audio-points';
 
   const state = {
     points: [],
@@ -34,8 +28,9 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.points));
   }
 
-  function getComputedColor(variable) {
-    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+  function getComputedColor(variable, element) {
+    var target = element || document.documentElement;
+    return getComputedStyle(target).getPropertyValue(variable).trim();
   }
 
   function formatTimeShort(totalSeconds) {
@@ -83,16 +78,15 @@
     state.canvas.height = height * dpr;
     state.canvas.style.width = width + 'px';
     state.canvas.style.height = height + 'px';
-    state.ctx.scale(dpr, dpr);
     return { width: width, height: height };
   }
 
   function getLevelColors() {
+    var tileContainer = document.getElementById('audioTile');
     return {
-      1: getComputedColor('--graph-point-1'),
-      2: getComputedColor('--graph-point-2'),
-      3: getComputedColor('--graph-point-3'),
-      4: getComputedColor('--graph-point-4')
+      1: getComputedColor('--graph-point-1', tileContainer),
+      2: getComputedColor('--graph-point-2', tileContainer),
+      3: getComputedColor('--graph-point-3', tileContainer)
     };
   }
 
@@ -101,7 +95,7 @@
     if (!canvas) return;
 
     const levelColors = getLevelColors();
-    GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 4, levelColors, { pointRadius: 4 });
+    window.__GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 3, levelColors, { pointRadius: 4 });
   }
 
   function showConfirmation(title, message, onConfirm) {
@@ -123,30 +117,30 @@
   }
 
   function init() {
-    state.canvas = document.getElementById('emfCanvas');
+    state.canvas = document.getElementById('audioCanvas');
     state.ctx = state.canvas.getContext('2d');
 
     if (!state.canvas || !state.ctx) return;
 
     state.points = getStoredPoints();
 
-    var emfButtons = document.querySelectorAll('.btn-emf');
-    for (var i = 0; i < emfButtons.length; i++) {
-      emfButtons[i].addEventListener('click', (function (btn) {
+    var audioButtons = document.querySelectorAll('.btn-audio');
+    for (var i = 0; i < audioButtons.length; i++) {
+      audioButtons[i].addEventListener('click', (function (btn) {
         return function () {
           var level = parseInt(btn.getAttribute('data-level'), 10);
           addPoint(level);
         };
-      })(emfButtons[i]));
+      })(audioButtons[i]));
     }
 
-    document.getElementById('emfUndo').addEventListener('click', function () {
+    document.getElementById('audioUndo').addEventListener('click', function () {
       removeLastPoint();
     });
 
-    document.getElementById('emfReset').addEventListener('click', function () {
+    document.getElementById('audioReset').addEventListener('click', function () {
       showConfirmation(
-        'Reset EMF Tile',
+        'Reset Audio Tile',
         'Are you sure you want to delete all points?',
         function () { resetPoints(); }
       );
@@ -167,7 +161,7 @@
     render();
   }
 
-  window.__emfTile = {
+  window.__audioTile = {
     updateTimer: updateTimer,
     addPoint: addPoint,
     resetPoints: resetPoints,
@@ -175,7 +169,7 @@
       const canvas = document.getElementById('globalProofCanvas');
       if (!canvas) return;
       const levelColors = getLevelColors();
-      GraphRenderer.renderGlobalProof(canvas, window.__thermalTile ? window.__thermalTile._getState().points : [], 60, 0, levelColors);
+      window.__GraphRenderer.renderGlobalProof(canvas, window.__thermalTile ? window.__thermalTile._getState().points : [], 60, 0, levelColors);
     }
   };
 

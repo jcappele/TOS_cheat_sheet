@@ -1,0 +1,43 @@
+/* ============================================
+   TOS CheatSheet - Tuile EMF (Gris → Violet profond)
+   ============================================ */
+
+.emf-tile {
+  --graph-point-1: #ffffff;
+  --graph-point-2: #ffb7b7;
+  --graph-point-3: #ff5d5d;
+  --graph-point-4: #ff0000;
+}
+
+.emf-tile .btn-emf {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.emf-tile .btn-emf[data-level="1"]:hover,
+.emf-tile .btn-emf[data-level="1"].active {
+  background-color: #877070;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.emf-tile .btn-emf[data-level="2"]:hover,
+.emf-tile .btn-emf[data-level="2"].active {
+  background-color: #925a5a;
+  border-color: var(--graph-point-2);
+  color: var(--graph-point-2);
+}
+
+.emf-tile .btn-emf[data-level="3"]:hover,
+.emf-tile .btn-emf[data-level="3"].active {
+  background-color: #8a2d2d;
+  border-color: var(--graph-point-3);
+  color: var(--graph-point-3);
+}
+
+.emf-tile .btn-emf[data-level="4"]:hover,
+.emf-tile .btn-emf[data-level="4"].active {
+  background-color: #9b0e0e;
+  border-color: var(--graph-point-4);
+  color: var(--graph-point-4);
+}

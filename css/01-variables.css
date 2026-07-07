@@ -1,0 +1,58 @@
+/* ============================================
+   TOS CheatSheet - Variables globales
+   ============================================ */
+
+:root {
+  /* Couleur Signature (Core) */
+  --deezer-purple: #a238ff;
+  --deezer-purple-hover: #b866ff;
+  --deezer-purple-active: #8a2be0;
+
+  /* Mode Sombre (Dark Mode) - par défaut */
+  --bg-primary: #121216;
+  --bg-secondary: #191922;
+  --bg-tertiary: #23232e;
+  --bg-hover: #2a2a36;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a2a2ad;
+  --text-muted: #6b6b75;
+
+  --accent-yellow: #e1ff00;
+  --accent-orange: #ff5722;
+
+  --border-color: #2a2a36;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+
+  --btn-start-bg: #1db954;
+  --btn-start-hover: #1ed760;
+  --btn-stop-bg: #e91e63;
+  --btn-stop-hover: #f06292;
+  --btn-stop-disabled: #4a4a55;
+  --btn-reset-bg: #ff9800;
+  --btn-reset-hover: #ffb74d;
+  --btn-reset-disabled: #4a4a55;
+
+  /* Graph colors par tuile */
+  /* Thermal (bleu ciel) */
+  --thermal-primary: #4fc3f7;
+  --thermal-primary-light: #81d4fa;
+  --thermal-primary-dark: #0288d1;
+
+  /* Audio (rouge/orange/vert) */
+  --audio-primary: #ef5350;
+  --audio-primary-light: #ff8a80;
+  --audio-primary-dark: #b71c1c;
+
+  /* EMF (violet) */
+  --emf-primary: #ab47bc;
+  --emf-primary-light: #ce93d8;
+  --emf-primary-dark: #7b1fa2;
+
+  --graph-line-color: #66bb6a;
+  --graph-point-color: #66bb6a;
+  --graph-grid-color: var(--border-color);
+
+  --header-height: 70px;
+  --footer-height: 60px;
+}

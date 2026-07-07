@@ -1,0 +1,43 @@
+/* ============================================
+   TOS CheatSheet - Tuile Thermal (Gris → Bleu profond)
+   ============================================ */
+
+.thermal-tile {
+  --graph-point-1: #b2dfff;
+  --graph-point-2: #7ac7ff;
+  --graph-point-3: #3daeff;
+  --graph-point-4: #0095ff;
+}
+
+.thermal-tile .btn-thermal {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.thermal-tile .btn-thermal[data-level="1"]:hover,
+.thermal-tile .btn-thermal[data-level="1"].active {
+  background-color: #618b94;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.thermal-tile .btn-thermal[data-level="2"]:hover,
+.thermal-tile .btn-thermal[data-level="2"].active {
+  background-color: #527482;
+  border-color: var(--graph-point-2);
+  color: var(--graph-point-2);
+}
+
+.thermal-tile .btn-thermal[data-level="3"]:hover,
+.thermal-tile .btn-thermal[data-level="3"].active {
+  background-color: #336b83;
+  border-color: var(--graph-point-3);
+  color: var(--graph-point-3);
+}
+
+.thermal-tile .btn-thermal[data-level="4"]:hover,
+.thermal-tile .btn-thermal[data-level="4"].active {
+  background-color: #0f6489;
+  border-color: var(--graph-point-4);
+  color: var(--graph-point-4);
+}

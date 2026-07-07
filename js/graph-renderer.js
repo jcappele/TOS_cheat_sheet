@@ -20,7 +20,7 @@
   function getCanvasDimensions(canvas) {
     var container = canvas.parentElement;
     var width = container.clientWidth;
-    var height = 200;
+    var height = 150;
     var dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
@@ -46,7 +46,7 @@
     ctx.stroke();
 
     ctx.fillStyle = textColor;
-    ctx.font = '11px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
+    ctx.font = '9px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif';
     ctx.textAlign = 'center';
     for (var t = 0; t <= maxDisplayTime; t += timeStep) {
       var x = padding.left + (t / maxDisplayTime) * (width - padding.left - padding.right);
@@ -82,23 +82,30 @@
     var pointsInRange = points.filter(function (p) { return p.time <= maxDisplayTime; });
     if (pointsInRange.length === 0) return;
 
-    ctx.strokeStyle = levelColors[1] || levelColors[0];
     ctx.lineWidth = 2;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.beginPath();
 
     for (var i = 0; i < pointsInRange.length; i++) {
       var p = pointsInRange[i];
       var x = padding.left + (p.time / maxDisplayTime) * graphWidth;
       var y = padding.top + ((maxLevel - p.level) / maxLevel) * graphHeight;
+      var color = levelColors[p.level] || levelColors[1] || levelColors[0];
+
       if (i === 0) {
+        ctx.beginPath();
         ctx.moveTo(x, y);
       } else {
+        var prevP = pointsInRange[i - 1];
+        var prevX = padding.left + (prevP.time / maxDisplayTime) * graphWidth;
+        var prevY = padding.top + ((maxLevel - prevP.level) / maxLevel) * graphHeight;
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.moveTo(prevX, prevY);
         ctx.lineTo(x, y);
+        ctx.stroke();
       }
     }
-    ctx.stroke();
 
     for (var i = 0; i < pointsInRange.length; i++) {
       var p = pointsInRange[i];
@@ -108,7 +115,7 @@
 
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.arc(x, y, pointRadius || 4, 0, Math.PI * 2);
+      ctx.arc(x, y, pointRadius || 3, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.strokeStyle = bgColor;
@@ -126,18 +133,22 @@
     var width = dims.width;
     var height = dims.height;
     var dpr = dims.dpr;
+    
+    ctx.save();
     ctx.scale(dpr, dpr);
 
-    var padding = options.padding || { top: 20, right: 20, bottom: 30, left: 40 };
+    var padding = options.padding || { top: 12, right: 12, bottom: 18, left: 28 };
     var graphWidth = width - padding.left - padding.right;
     var graphHeight = height - padding.top - padding.bottom;
 
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width / dpr, height / dpr);
 
     drawGrid(ctx, width, height, maxDisplayTime, padding, graphHeight);
     drawYAxis(ctx, padding, graphHeight, maxLevel);
     drawCurrentTimeLine(ctx, width, height, currentTime, maxDisplayTime, padding, graphHeight);
     drawPoints(ctx, points, maxDisplayTime, padding, graphHeight, graphWidth, maxLevel, levelColors, options.pointRadius);
+    
+    ctx.restore();
   }
 
   function renderGlobalProof(canvas, points, maxDisplayTime, currentTime, levelColors) {
@@ -148,13 +159,15 @@
     var width = dims.width;
     var height = dims.height;
     var dpr = dims.dpr;
+    
+    ctx.save();
     ctx.scale(dpr, dpr);
 
     var padding = { top: 20, right: 20, bottom: 30, left: 40 };
     var graphWidth = width - padding.left - padding.right;
     var graphHeight = height - padding.top - padding.bottom;
 
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width / dpr, height / dpr);
 
     var bgColor = getComputedColor('--bg-primary');
     var textColor = getComputedColor('--text-secondary');
@@ -218,6 +231,8 @@
       ctx.stroke();
       ctx.setLineDash([]);
     }
+    
+    ctx.restore();
   }
 
   function showConfirmation(title, message, onConfirm) {

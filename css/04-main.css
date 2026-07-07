@@ -1,0 +1,110 @@
+/* ============================================
+   TOS CheatSheet - Zone Centrale
+   ============================================ */
+
+.app-main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* --- Section Preuves --- */
+
+.proofs-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 1200px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.proofs-container::-webkit-scrollbar {
+  display: none;
+}
+
+.thermal-tile,
+.audio-tile,
+.emf-tile,
+.radiation-tile,
+.uv-tile,
+.writing-tile {
+  flex: 0 0 auto;
+  min-width: 150px;
+  max-width: 190px;
+}
+
+/* --- Section Comportements --- */
+
+.behaviors-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.behavior-tile {
+  flex: 0 0 auto;
+  min-width: 180px;
+  max-width: 240px;
+}
+
+/* --- Section Fantômes --- */
+
+.ghosts-container {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.ghosts-placeholder {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-style: italic;
+  padding: 20px;
+  opacity: 0.7;
+}
+
+/* --- Ghost Bar (Footer) --- */
+
+.ghost-bar {
+  height: var(--footer-height);
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.ghost-bar-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  overflow-x: auto;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.ghost-bar-content::-webkit-scrollbar {
+  display: none;
+}
+
+.ghost-placeholder {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  white-space: nowrap;
+}

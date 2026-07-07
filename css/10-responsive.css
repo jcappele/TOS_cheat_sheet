@@ -1,0 +1,20 @@
+/* ============================================
+   TOS CheatSheet - Responsive (fallback)
+   ============================================ */
+
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 1.2rem;
+  }
+
+  .timer-display {
+    font-size: 1.4rem;
+    padding: 6px 16px;
+    min-width: 110px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}

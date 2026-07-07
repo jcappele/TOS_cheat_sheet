@@ -1,0 +1,35 @@
+/* ============================================
+   TOS CheatSheet - Tuile Writing (Bleu → Orange → Rouge)
+   ============================================ */
+
+.writing-tile {
+  --graph-point-1: #d4e8ff;
+  --graph-point-2: #ff8c00;
+  --graph-point-3: #cc0000;
+}
+
+.writing-tile .btn-writing {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.writing-tile .btn-writing[data-level="1"]:hover,
+.writing-tile .btn-writing[data-level="1"].active {
+  background-color: #5a7a8a;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.writing-tile .btn-writing[data-level="2"]:hover,
+.writing-tile .btn-writing[data-level="2"].active {
+  background-color: #8a6a3a;
+  border-color: var(--graph-point-2);
+  color: var(--graph-point-2);
+}
+
+.writing-tile .btn-writing[data-level="3"]:hover,
+.writing-tile .btn-writing[data-level="3"].active {
+  background-color: #8a2a2a;
+  border-color: var(--graph-point-3);
+  color: var(--graph-point-3);
+}

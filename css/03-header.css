@@ -1,0 +1,113 @@
+/* ============================================
+   TOS CheatSheet - Header
+   ============================================ */
+
+.app-header {
+  height: var(--header-height);
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--deezer-purple);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 20px rgba(162, 56, 255, 0.3);
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-display {
+  font-size: 2rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  min-width: 140px;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --- Boutons --- */
+
+.btn {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-start-stop {
+  background-color: var(--btn-start-bg);
+  color: #ffffff;
+}
+
+.btn-start-stop:hover {
+  background-color: var(--btn-start-hover);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.4);
+}
+
+.btn-start-stop:active {
+  transform: scale(0.98);
+}
+
+.btn-start-stop.is-stopping {
+  background-color: var(--btn-stop-bg);
+}
+
+.btn-start-stop.is-stopping:hover {
+  background-color: var(--btn-stop-hover);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.4);
+}
+
+.btn-reset {
+  background-color: var(--btn-reset-bg);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 8px 16px;
+}
+
+.btn-reset:hover {
+  background-color: var(--btn-reset-hover);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.btn-reset:active {
+  transform: scale(0.98);
+}

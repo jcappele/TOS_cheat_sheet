@@ -1,0 +1,35 @@
+/* ============================================
+   TOS CheatSheet - Tuile Radiation (CPM - Vert → Jaune → Rouge)
+   ============================================ */
+
+.radiation-tile {
+  --graph-point-1: #d4ffd4;
+  --graph-point-2: #ffd700;
+  --graph-point-3: #ff4444;
+}
+
+.radiation-tile .btn-radiation {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.radiation-tile .btn-radiation[data-level="1"]:hover,
+.radiation-tile .btn-radiation[data-level="1"].active {
+  background-color: #5a8a5a;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.radiation-tile .btn-radiation[data-level="2"]:hover,
+.radiation-tile .btn-radiation[data-level="2"].active {
+  background-color: #8a7a3a;
+  border-color: var(--graph-point-2);
+  color: var(--graph-point-2);
+}
+
+.radiation-tile .btn-radiation[data-level="3"]:hover,
+.radiation-tile .btn-radiation[data-level="3"].active {
+  background-color: #8a3a3a;
+  border-color: var(--graph-point-3);
+  color: var(--graph-point-3);
+}

@@ -1,0 +1,35 @@
+/* ============================================
+   TOS CheatSheet - Tuile Audio (Gris → Rouge → Vert)
+   ============================================ */
+
+.audio-tile {
+  --graph-point-1: #d7ffd0;
+  --graph-point-2: #94fa85;
+  --graph-point-3: #2eff27;
+}
+
+.audio-tile .btn-audio {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.audio-tile .btn-audio[data-level="1"]:hover,
+.audio-tile .btn-audio[data-level="1"].active {
+  background-color: #70866f;
+  border-color: var(--graph-point-1);
+  color: var(--graph-point-1);
+}
+
+.audio-tile .btn-audio[data-level="2"]:hover,
+.audio-tile .btn-audio[data-level="2"].active {
+  background-color: #448042;
+  border-color: var(--graph-point-2);
+  color: var(--graph-point-2);
+}
+
+.audio-tile .btn-audio[data-level="3"]:hover,
+.audio-tile .btn-audio[data-level="3"].active {
+  background-color: #158711;
+  border-color: var(--graph-point-3);
+  color: var(--graph-point-3);
+}

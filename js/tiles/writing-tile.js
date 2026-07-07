@@ -1,25 +1,18 @@
 /* ============================================
-   TOS CheatSheet - Tuile de Preuve Thermale
+   TOS CheatSheet - Tuile de Preuve Writing
    ============================================ */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'tos-cheatsheet-thermal-points';
-  const LEVEL_COLORS = {
-    1: getComputedColor('--graph-point-1'),
-    2: getComputedColor('--graph-point-2'),
-    3: getComputedColor('--graph-point-3'),
-    4: getComputedColor('--graph-point-4')
-  };
+  const STORAGE_KEY = 'tos-cheatsheet-writing-points';
 
   const state = {
     points: [],
     currentTime: 0,
     maxDisplayTime: 60,
     canvas: null,
-    ctx: null,
-    onConfirmCallback: null
+    ctx: null
   };
 
   function getStoredPoints() {
@@ -35,23 +28,18 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.points));
   }
 
-  function getComputedColor(variable) {
-    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+  function getComputedColor(variable, element) {
+    var target = element || document.documentElement;
+    return getComputedStyle(target).getPropertyValue(variable).trim();
   }
 
   function getLevelColors() {
+    var tileContainer = document.getElementById('writingTile');
     return {
-      1: getComputedColor('--graph-point-1'),
-      2: getComputedColor('--graph-point-2'),
-      3: getComputedColor('--graph-point-3'),
-      4: getComputedColor('--graph-point-4')
+      1: getComputedColor('--graph-point-1', tileContainer),
+      2: getComputedColor('--graph-point-2', tileContainer),
+      3: getComputedColor('--graph-point-3', tileContainer)
     };
-  }
-
-  function formatTimeShort(totalSeconds) {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
   }
 
   function addPoint(level) {
@@ -88,32 +76,19 @@
     renderGlobalProof();
   }
 
-  function getCanvasDimensions() {
-    const container = state.canvas.parentElement;
-    const width = container.clientWidth;
-    const height = 200;
-    const dpr = window.devicePixelRatio || 1;
-    state.canvas.width = width * dpr;
-    state.canvas.height = height * dpr;
-    state.canvas.style.width = width + 'px';
-    state.canvas.style.height = height + 'px';
-    state.ctx.scale(dpr, dpr);
-    return { width: width, height: height };
-  }
-
   function render() {
     const canvas = state.canvas;
     if (!canvas) return;
 
     const levelColors = getLevelColors();
-    GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 4, levelColors, { pointRadius: 4 });
+    window.__GraphRenderer.renderGraph(canvas, state.points, state.maxDisplayTime, state.currentTime, 3, levelColors, { pointRadius: 4 });
   }
 
   function renderGlobalProof() {
     const canvas = document.getElementById('globalProofCanvas');
     if (!canvas) return;
     const levelColors = getLevelColors();
-    GraphRenderer.renderGlobalProof(canvas, state.points, state.maxDisplayTime, state.currentTime, levelColors);
+    window.__GraphRenderer.renderGlobalProof(canvas, state.points, state.maxDisplayTime, state.currentTime, levelColors);
   }
 
   function showConfirmation(title, message, onConfirm) {
@@ -135,28 +110,28 @@
   }
 
   function init() {
-    state.canvas = document.getElementById('thermalCanvas');
+    state.canvas = document.getElementById('writingCanvas');
     state.ctx = state.canvas.getContext('2d');
 
     if (!state.canvas || !state.ctx) return;
 
     state.points = getStoredPoints();
 
-    const thermalButtons = document.querySelectorAll('.btn-thermal');
-    thermalButtons.forEach(function (btn) {
+    var writingButtons = document.querySelectorAll('.btn-writing');
+    writingButtons.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        const level = parseInt(this.getAttribute('data-level'), 10);
+        var level = parseInt(this.getAttribute('data-level'), 10);
         addPoint(level);
       });
     });
 
-    document.getElementById('thermalUndo').addEventListener('click', function () {
+    document.getElementById('writingUndo').addEventListener('click', function () {
       removeLastPoint();
     });
 
-    document.getElementById('thermalReset').addEventListener('click', function () {
+    document.getElementById('writingReset').addEventListener('click', function () {
       showConfirmation(
-        'Reset Thermal Tile',
+        'Reset Writing Tile',
         'Are you sure you want to delete all points?',
         function () { resetPoints(); }
       );
@@ -196,7 +171,7 @@
     renderGlobalProof();
   }
 
-  window.__thermalTile = {
+  window.__writingTile = {
     updateTimer: updateTimer,
     addPoint: addPoint,
     resetPoints: resetPoints,

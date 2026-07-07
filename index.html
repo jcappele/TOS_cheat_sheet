@@ -20,7 +20,8 @@
         </div>
     </header>
     <main class="app-main">
-        <div class="tiles-container">
+        <!-- Section Preuves -->
+        <div class="proofs-container">
             <section class="tile thermal-tile" id="thermalTile">
                 <h2 class="tile-title">Thermal</h2>
                 <div class="button-group">
@@ -68,6 +69,74 @@
                     <button class="btn-control" id="emfReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
             </section>
+            <section class="tile radiation-tile" id="radiationTile">
+                <h2 class="tile-title">Radiation</h2>
+                <div class="button-group">
+                    <button class="btn-radiation btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Minimal (CPM Range: 100 to 500)">Level 1</button>
+                    <button class="btn-radiation btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate (CPM Range: 501 to 1000)">Level 2</button>
+                    <button class="btn-radiation btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Intense (CPM Range: 1001 to 2000)">Level 3</button>
+                </div>
+                <div class="graph-container">
+                    <canvas id="radiationCanvas" class="graph-canvas" width="800" height="180"></canvas>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn-control" id="radiationUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="radiationReset" aria-label="Reset tile">&#128465; Reset</button>
+                </div>
+            </section>
+            <section class="tile uv-tile" id="uvTile">
+                <h2 class="tile-title">UV</h2>
+                <div class="button-group">
+                    <button class="btn-uv btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Faint traces (Subtle, barely visible markings or slight discoloration)">Level 1</button>
+                    <button class="btn-uv btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate Residues (Glowing objects or surfaces, or intense patterns)">Level 2</button>
+                    <button class="btn-uv btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Easily Identifiable Patterns (Clear and distinct patterns or markings)">Level 3</button>
+                </div>
+                <div class="graph-container">
+                    <canvas id="uvCanvas" class="graph-canvas" width="800" height="180"></canvas>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn-control" id="uvUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="uvReset" aria-label="Reset tile">&#128465; Reset</button>
+                </div>
+            </section>
+            <section class="tile writing-tile" id="writingTile">
+                <h2 class="tile-title">Writing</h2>
+                <div class="button-group">
+                    <button class="btn-writing btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Incomprehensible Scribling (Writing would appear as chaotic scribbles)">Level 1</button>
+                    <button class="btn-writing btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Symbolic Enigmas (The messages might be in the form of intricate symbols)">Level 2</button>
+                    <button class="btn-writing btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Hostile Manifestifications (Exceptionally aggressive and malevolent messages)">Level 3</button>
+                </div>
+                <div class="graph-container">
+                    <canvas id="writingCanvas" class="graph-canvas" width="800" height="180"></canvas>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn-control" id="writingUndo" aria-label="Remove last point">&#8617; Undo</button>
+                    <button class="btn-control" id="writingReset" aria-label="Reset tile">&#128465; Reset</button>
+                </div>
+            </section>
+        </div>
+        <!-- Section Comportements -->
+        <div class="behaviors-container">
+            <section class="tile behavior-tile" id="lightOnTile">
+                <h2 class="tile-title">Light On</h2>
+                <div class="counter-display" id="lightOnCount">0</div>
+                <div class="counter-buttons">
+                    <button class="btn-counter btn-increment" id="lightOnIncrement" aria-label="Increment Light On count">+1</button>
+                    <button class="btn-counter btn-decrement" id="lightOnDecrement" aria-label="Decrement Light On count">-1</button>
+                </div>
+            </section>
+            <section class="tile behavior-tile" id="lightOffTile">
+                <h2 class="tile-title">Light Off</h2>
+                <div class="counter-display" id="lightOffCount">0</div>
+                <div class="counter-buttons">
+                    <button class="btn-counter btn-increment" id="lightOffIncrement" aria-label="Increment Light Off count">+1</button>
+                    <button class="btn-counter btn-decrement" id="lightOffDecrement" aria-label="Decrement Light Off count">-1</button>
+                </div>
+            </section>
+        </div>
+        <!-- Section Fantômes -->
+        <div class="ghosts-container">
+            <div class="ghosts-placeholder">Top 3 Ghosts — Coming Soon</div>
         </div>
     </main>
     <footer class="ghost-bar">
@@ -87,8 +156,13 @@
     </div>
     <script src="js/theme.js"></script>
     <script src="js/timer.js"></script>
-    <script src="js/thermal-tile.js"></script>
-    <script src="js/audio-tile.js"></script>
-    <script src="js/emf-tile.js"></script>
+    <script src="js/graph-renderer.js"></script>
+    <script src="js/tiles/thermal-tile.js"></script>
+    <script src="js/tiles/audio-tile.js"></script>
+    <script src="js/tiles/emf-tile.js"></script>
+    <script src="js/tiles/radiation-tile.js"></script>
+    <script src="js/tiles/uv-tile.js"></script>
+    <script src="js/tiles/writing-tile.js"></script>
+    <script src="js/tiles/behavior-tile.js"></script>
 </body>
 </html>
