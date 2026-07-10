@@ -44,6 +44,8 @@
     storePoints();
     updateSelectedButton(level);
     render();
+    emitProofPointAdded();
+    registerProofWithEngine();
   }
 
   function removeLastPoint() {
@@ -61,6 +63,9 @@
     storePoints();
     updateSelectedButton(null);
     render();
+    if (window.__ProofTrustEngine) {
+      window.__ProofTrustEngine.reset();
+    }
   }
 
   function updateSelectedButton(level) {
@@ -129,6 +134,20 @@
     };
 
     overlay.addEventListener('click', onConfirmHandler);
+  }
+
+  function emitProofPointAdded() {
+    if (state.points.length > 0) {
+      document.dispatchEvent(new CustomEvent('proofPointAdded', {
+        detail: { type: 'audio', level: state.points[state.points.length - 1].level, time: state.currentTime }
+      }));
+    }
+  }
+
+  function registerProofWithEngine() {
+    if (window.__ProofTrustEngine) {
+      window.__ProofTrustEngine.registerProof('audio', state.points, 3);
+    }
   }
 
   function init() {

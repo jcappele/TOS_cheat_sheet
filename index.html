@@ -148,28 +148,66 @@
             </section>
         </div>
         <!-- Section Comportements -->
-        <div class="behaviors-container">
-            <section class="tile tile-counter" id="lightOnTile">
-                <h2 class="tile-title">Light On</h2>
-                <div class="counter-display" id="lightOnCount">0</div>
-                <div class="counter-buttons">
-                    <button class="btn-counter btn-increment" id="lightOnIncrement" aria-label="Increment Light On count">+1</button>
-                    <button class="btn-counter btn-decrement" id="lightOnDecrement" aria-label="Decrement Light On count">-1</button>
-                </div>
+        <div class="behaviors-container" id="behaviorTilesContainer">
+            <section class="behavior-tile candles" id="behaviorCandlesTile" data-behavior="candles">
+                <h2 class="behavior-tile-title">Candles</h2>
+                <div class="behavior-btn-group" data-behavior="candles"></div>
             </section>
-            <section class="tile tile-counter" id="lightOffTile">
-                <h2 class="tile-title">Light Off</h2>
-                <div class="counter-display" id="lightOffCount">0</div>
-                <div class="counter-buttons">
-                    <button class="btn-counter btn-increment" id="lightOffIncrement" aria-label="Increment Light Off count">+1</button>
-                    <button class="btn-counter btn-decrement" id="lightOffDecrement" aria-label="Decrement Light Off count">-1</button>
-                </div>
+            <section class="behavior-tile radio" id="behaviorRadioTile" data-behavior="radio">
+                <h2 class="behavior-tile-title">Radio</h2>
+                <div class="behavior-btn-group" data-behavior="radio"></div>
+            </section>
+            <section class="behavior-tile doors" id="behaviorDoorsTile" data-behavior="doors">
+                <h2 class="behavior-tile-title">Doors closed</h2>
+                <div class="behavior-count">0</div>
+                <div class="behavior-btn-group" data-behavior="doors"></div>
+            </section>
+            <section class="behavior-tile holywater-cooldown" id="behaviorHolyWaterCooldownTile" data-behavior="holywater-cooldown">
+                <h2 class="behavior-tile-title">Holy Water Disorientation</h2>
+                <div class="behavior-btn-group" data-behavior="holywater-cooldown"></div>
+            </section>
+            <section class="behavior-tile cooldown" id="behaviorCooldownTile" data-behavior="cooldown">
+                <h2 class="behavior-tile-title">Hunt Cooldown</h2>
+                <div class="behavior-btn-group" data-behavior="cooldown"></div>
+            </section>
+            <section class="behavior-tile speed" id="behaviorSpeedTile" data-behavior="speed">
+                <h2 class="behavior-tile-title">Speed</h2>
+                <div class="behavior-btn-group" data-behavior="speed"></div>
+            </section>
+            <section class="behavior-tile speed-los" id="behaviorSpeedLosTile" data-behavior="speed-los">
+                <h2 class="behavior-tile-title">Speed LOS</h2>
+                <div class="behavior-btn-group" data-behavior="speed-los"></div>
+            </section>
+            <section class="behavior-tile range-los" id="behaviorRangeLosTile" data-behavior="range-los">
+                <h2 class="behavior-tile-title">Range LOS</h2>
+                <div class="behavior-btn-group" data-behavior="range-los"></div>
+            </section>
+            <section class="behavior-tile flx-pod" id="behaviorFlxPodTile" data-behavior="flx-pod">
+                <h2 class="behavior-tile-title">FLX-POD</h2>
+                <div class="behavior-count">0</div>
+                <div class="behavior-btn-group" data-behavior="flx-pod"></div>
+            </section>
+            <section class="behavior-tile breaker" id="behaviorBreakerTile" data-behavior="breaker">
+                <h2 class="behavior-tile-title">Breaker</h2>
+                <div class="behavior-count">0</div>
+                <div class="behavior-btn-group" data-behavior="breaker"></div>
+            </section>
+            <section class="behavior-tile light-on" id="behaviorLightOnTile" data-behavior="light-on">
+                <h2 class="behavior-tile-title">Light On</h2>
+                <div class="behavior-count">0</div>
+                <div class="behavior-btn-group" data-behavior="light-on"></div>
+            </section>
+            <section class="behavior-tile light-off" id="behaviorLightOffTile" data-behavior="light-off">
+                <h2 class="behavior-tile-title">Light Off</h2>
+                <div class="behavior-count">0</div>
+                <div class="behavior-btn-group" data-behavior="light-off"></div>
             </section>
         </div>
         <!-- Section Fantômes -->
-        <div class="ghosts-container">
+        <section class="tile ghosts-container" id="ghostsContainer">
+            <h2 class="tile-title">Top Ghosts</h2>
             <div class="ghosts-placeholder">Top 3 Ghosts — Coming Soon</div>
-        </div>
+        </section>
     </main>
     <footer class="ghost-bar">
         <div class="ghost-bar-content" id="ghostBar">
@@ -189,6 +227,7 @@
     <script src="js/theme.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/graph-renderer.js"></script>
+    <script src="js/engine/proof-trust-engine.js"></script>
     <script src="js/tiles/thermal-tile.js"></script>
     <script src="js/tiles/audio-tile.js"></script>
     <script src="js/tiles/emf-tile.js"></script>
@@ -196,6 +235,8 @@
     <script src="js/tiles/uv-tile.js"></script>
     <script src="js/tiles/writing-tile.js"></script>
     <script src="js/tiles/tile-counter.js"></script>
+    <script src="js/tiles/ghost-tiles.js"></script>
+    <script src="js/tiles/behavioral-tiles.js"></script>
     <script src="js/proofButtonsManager.js"></script>
 </body>
 </html>

@@ -56,6 +56,8 @@
     updateSelectedButton(level);
     render();
     renderGlobalProof();
+    emitProofPointAdded();
+    registerProofWithEngine();
   }
 
   function removeLastPoint() {
@@ -75,6 +77,9 @@
     updateSelectedButton(null);
     render();
     renderGlobalProof();
+    if (window.__ProofTrustEngine) {
+      window.__ProofTrustEngine.reset();
+    }
   }
 
   function updateSelectedButton(level) {
@@ -142,6 +147,20 @@
     const overlay = document.getElementById('confirmationOverlay');
     overlay.classList.remove('is-visible');
     state.onConfirmCallback = null;
+  }
+
+  function emitProofPointAdded() {
+    if (state.points.length > 0) {
+      document.dispatchEvent(new CustomEvent('proofPointAdded', {
+        detail: { type: 'thermal', level: state.points[state.points.length - 1].level, time: state.currentTime }
+      }));
+    }
+  }
+
+  function registerProofWithEngine() {
+    if (window.__ProofTrustEngine) {
+      window.__ProofTrustEngine.registerProof('thermal', state.points, 4);
+    }
   }
 
   function init() {

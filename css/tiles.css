@@ -147,3 +147,181 @@ canvas.graph-canvas {
   pointer-events: none;
   cursor: not-allowed;
 }
+
+/* ============================================
+    Tuiles comportementales
+    ============================================ */
+
+.behavior-tile {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  position: relative;
+}
+
+.behavior-tile-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.behavior-tile-title .icon {
+  font-size: 1rem;
+}
+
+.behavior-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.behavior-count {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 4px 0;
+}
+
+.behavior-btn {
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
+  flex: 0 0 auto;
+  width: fit-content;
+}
+
+.behavior-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 6px var(--shadow-color);
+  background-color: var(--bg-hover);
+}
+
+.behavior-btn:active {
+  transform: scale(0.97);
+}
+
+.behavior-btn.behavior-btn-selected {
+  border-width: 3px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5) !important;
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgb(59, 130, 246) !important;
+  color: rgb(59, 130, 246) !important;
+}
+
+/* Couleurs spécifiques par type de comportement */
+.behavior-tile.candles .behavior-btn.behavior-btn-selected {
+  background-color: rgba(167, 131, 93, 0.15) !important;
+  border-color: rgb(167, 131, 93) !important;
+  color: rgb(167, 131, 93) !important;
+  box-shadow: 0 0 8px rgba(167, 131, 93, 0.5) !important;
+}
+
+.behavior-tile.radio .behavior-btn.behavior-btn-selected {
+  background-color: rgba(100, 180, 255, 0.15) !important;
+  border-color: rgb(100, 180, 255) !important;
+  color: rgb(100, 180, 255) !important;
+  box-shadow: 0 0 8px rgba(100, 180, 255, 0.5) !important;
+}
+
+.behavior-tile.doors .behavior-btn.behavior-btn-selected {
+  background-color: rgba(180, 80, 140, 0.15) !important;
+  border-color: rgb(180, 80, 140) !important;
+  color: rgb(180, 80, 140) !important;
+  box-shadow: 0 0 8px rgba(180, 80, 140, 0.5) !important;
+}
+
+.behavior-tile.cooldown .behavior-btn.behavior-btn-selected {
+  background-color: rgba(255, 100, 100, 0.15) !important;
+  border-color: rgb(255, 100, 100) !important;
+  color: rgb(255, 100, 100) !important;
+  box-shadow: 0 0 8px rgba(255, 100, 100, 0.5) !important;
+}
+
+.behavior-tile.speed .behavior-btn.behavior-btn-selected {
+  background-color: rgba(255, 165, 0, 0.15) !important;
+  border-color: rgb(255, 165, 0) !important;
+  color: rgb(255, 165, 0) !important;
+  box-shadow: 0 0 8px rgba(255, 165, 0, 0.5) !important;
+}
+
+.behavior-tile.holywater-cooldown .behavior-btn.behavior-btn-selected {
+  background-color: rgba(200, 200, 255, 0.15) !important;
+  border-color: rgb(200, 200, 255) !important;
+  color: rgb(200, 200, 255) !important;
+  box-shadow: 0 0 8px rgba(200, 200, 255, 0.5) !important;
+}
+
+.behavior-tile.speed-los .behavior-btn.behavior-btn-selected {
+  background-color: rgba(0, 200, 150, 0.15) !important;
+  border-color: rgb(0, 200, 150) !important;
+  color: rgb(0, 200, 150) !important;
+  box-shadow: 0 0 8px rgba(0, 200, 150, 0.5) !important;
+}
+
+.behavior-tile.range-los .behavior-btn.behavior-btn-selected {
+  background-color: rgba(200, 150, 255, 0.15) !important;
+  border-color: rgb(200, 150, 255) !important;
+  color: rgb(200, 150, 255) !important;
+  box-shadow: 0 0 8px rgba(200, 150, 255, 0.5) !important;
+}
+
+.behavior-tile.flx-pod .behavior-btn.behavior-btn-selected {
+  background-color: rgba(255, 220, 100, 0.15) !important;
+  border-color: rgb(255, 220, 100) !important;
+  color: rgb(255, 220, 100) !important;
+  box-shadow: 0 0 8px rgba(255, 220, 100, 0.5) !important;
+}
+
+.behavior-tile.breaker .behavior-btn.behavior-btn-selected {
+  background-color: rgba(255, 120, 50, 0.15) !important;
+  border-color: rgb(255, 120, 50) !important;
+  color: rgb(255, 120, 50) !important;
+  box-shadow: 0 0 8px rgba(255, 120, 50, 0.5) !important;
+}
+
+.behavior-tile.doors .behavior-btn.behavior-btn-selected {
+  background-color: rgba(180, 80, 140, 0.15) !important;
+  border-color: rgb(180, 80, 140) !important;
+  color: rgb(180, 80, 140) !important;
+  box-shadow: 0 0 8px rgba(180, 80, 140, 0.5) !important;
+}
+
+.behavior-tile.light-on .behavior-btn.behavior-btn-selected {
+  background-color: rgba(255, 215, 0, 0.15) !important;
+  border-color: rgb(255, 215, 0) !important;
+  color: rgb(255, 215, 0) !important;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5) !important;
+}
+
+.behavior-tile.light-off .behavior-btn.behavior-btn-selected {
+  background-color: rgba(100, 149, 237, 0.15) !important;
+  border-color: rgb(100, 149, 237) !important;
+  color: rgb(100, 149, 237) !important;
+  box-shadow: 0 0 8px rgba(100, 149, 237, 0.5) !important;
+}

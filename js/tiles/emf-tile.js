@@ -180,6 +180,22 @@
     if (lastPoint) {
       updateSelectedButton(lastPoint.level);
     }
+
+    registerProofWithEngine();
+  }
+
+  function emitProofPointAdded() {
+    if (state.points.length > 0) {
+      document.dispatchEvent(new CustomEvent('proofPointAdded', {
+        detail: { type: 'emf', level: state.points[state.points.length - 1].level, time: state.currentTime }
+      }));
+    }
+  }
+
+  function registerProofWithEngine() {
+    if (window.__ProofTrustEngine) {
+      window.__ProofTrustEngine.registerProof('emf', state.points, 5);
+    }
   }
 
   window.__emfTile = {
