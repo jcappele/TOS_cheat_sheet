@@ -33,3 +33,24 @@
   border-color: var(--graph-point-3);
   color: var(--graph-point-3);
 }
+
+.audio-tile .btn-level-selected[data-level="1"] {
+  border-color: var(--graph-point-1) !important;
+  color: var(--graph-point-1) !important;
+  background-color: rgba(215, 255, 208, 0.15) !important;
+  box-shadow: 0 0 8px rgba(215, 255, 208, 0.5) !important;
+}
+
+.audio-tile .btn-level-selected[data-level="2"] {
+  border-color: var(--graph-point-2) !important;
+  color: var(--graph-point-2) !important;
+  background-color: rgba(148, 250, 133, 0.15) !important;
+  box-shadow: 0 0 8px rgba(148, 250, 133, 0.5) !important;
+}
+
+.audio-tile .btn-level-selected[data-level="3"] {
+  border-color: var(--graph-point-3) !important;
+  color: var(--graph-point-3) !important;
+  background-color: rgba(46, 255, 39, 0.15) !important;
+  box-shadow: 0 0 8px rgba(46, 255, 39, 0.5) !important;
+}

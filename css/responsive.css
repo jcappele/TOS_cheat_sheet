@@ -18,3 +18,20 @@
     font-size: 0.8rem;
   }
 }
+
+/* ============================================
+   TOS CheatSheet - Responsive des tuiles
+   ============================================ */
+
+/* Grid fluide : s'adapte de 1 à N tuiles selon la largeur */
+.proofs-container {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 8px;
+}
+
+/* Mobile : 1 tuile par ligne (<600px) */
+@media (max-width: 599px) {
+  .proofs-container {
+    grid-template-columns: 1fr;
+  }
+}

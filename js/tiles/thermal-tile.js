@@ -53,6 +53,7 @@
   function addPoint(level) {
     state.points.push({ time: state.currentTime, level: level });
     storePoints();
+    updateSelectedButton(level);
     render();
     renderGlobalProof();
   }
@@ -71,8 +72,22 @@
     state.maxDisplayTime = 60;
     state.currentTime = 0;
     storePoints();
+    updateSelectedButton(null);
     render();
     renderGlobalProof();
+  }
+
+  function updateSelectedButton(level) {
+    var buttons = document.querySelectorAll('#thermalTile .btn-level');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('btn-level-selected');
+    }
+    if (level !== null) {
+      var targetBtn = document.querySelector('#thermalTile .btn-level[data-level="' + level + '"]');
+      if (targetBtn) {
+        targetBtn.classList.add('btn-level-selected');
+      }
+    }
   }
 
   function updateTimer(seconds) {
@@ -189,6 +204,11 @@
 
     render();
     renderGlobalProof();
+
+    var lastPoint = state.points.length > 0 ? state.points[state.points.length - 1] : null;
+    if (lastPoint) {
+      updateSelectedButton(lastPoint.level);
+    }
   }
 
   window.__thermalTile = {

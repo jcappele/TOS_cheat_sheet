@@ -41,3 +41,31 @@
   border-color: var(--graph-point-4);
   color: var(--graph-point-4);
 }
+
+.thermal-tile .btn-level-selected[data-level="1"] {
+  border-color: var(--graph-point-1) !important;
+  color: var(--graph-point-1) !important;
+  background-color: rgba(178, 223, 255, 0.15) !important;
+  box-shadow: 0 0 8px rgba(178, 223, 255, 0.5) !important;
+}
+
+.thermal-tile .btn-level-selected[data-level="2"] {
+  border-color: var(--graph-point-2) !important;
+  color: var(--graph-point-2) !important;
+  background-color: rgba(122, 199, 255, 0.15) !important;
+  box-shadow: 0 0 8px rgba(122, 199, 255, 0.5) !important;
+}
+
+.thermal-tile .btn-level-selected[data-level="3"] {
+  border-color: var(--graph-point-3) !important;
+  color: var(--graph-point-3) !important;
+  background-color: rgba(61, 174, 255, 0.15) !important;
+  box-shadow: 0 0 8px rgba(61, 174, 255, 0.5) !important;
+}
+
+.thermal-tile .btn-level-selected[data-level="4"] {
+  border-color: var(--graph-point-4) !important;
+  color: var(--graph-point-4) !important;
+  background-color: rgba(0, 149, 255, 0.15) !important;
+  box-shadow: 0 0 8px rgba(0, 149, 255, 0.5) !important;
+}

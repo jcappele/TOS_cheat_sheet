@@ -4,7 +4,7 @@
 
 .app-main {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -14,18 +14,11 @@
 /* --- Section Preuves --- */
 
 .proofs-container {
-  display: flex;
+  display: grid;
   gap: 8px;
   width: 100%;
-  max-width: 1200px;
-  overflow-x: auto;
-  scrollbar-width: none;
   align-items: stretch;
   justify-content: center;
-}
-
-.proofs-container::-webkit-scrollbar {
-  display: none;
 }
 
 .thermal-tile,
@@ -34,26 +27,24 @@
 .radiation-tile,
 .uv-tile,
 .writing-tile {
-  flex: 0 0 auto;
-  min-width: 150px;
-  max-width: 190px;
+  min-width: unset;
+  max-width: unset;
 }
 
 /* --- Section Comportements --- */
 
 .behaviors-container {
-  display: flex;
+  display: grid;
   gap: 8px;
   width: 100%;
-  max-width: 500px;
   justify-content: flex-start;
   align-items: stretch;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .tile-counter {
-  flex: 0 0 auto;
-  min-width: 90px;
-  max-width: 120px;
+  min-width: unset;
+  max-width: unset;
 }
 
 /* --- Section Fantômes --- */
@@ -62,7 +53,6 @@
   display: flex;
   gap: 8px;
   width: 100%;
-  max-width: 600px;
   justify-content: center;
   align-items: stretch;
 }

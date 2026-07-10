@@ -43,6 +43,7 @@
     }
     isRunning = true;
     updateButtonState();
+    document.dispatchEvent(new CustomEvent('timerStart'));
     timerInterval = setInterval(function () {
       elapsedSeconds++;
       updateDisplay();
@@ -56,6 +57,7 @@
     }
     isRunning = false;
     updateButtonState();
+    document.dispatchEvent(new CustomEvent('timerStop'));
     clearInterval(timerInterval);
     timerInterval = null;
   }

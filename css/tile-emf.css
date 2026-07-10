@@ -41,3 +41,31 @@
   border-color: var(--graph-point-4);
   color: var(--graph-point-4);
 }
+
+.emf-tile .btn-level-selected[data-level="1"] {
+  border-color: var(--graph-point-1) !important;
+  color: var(--graph-point-1) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+.emf-tile .btn-level-selected[data-level="2"] {
+  border-color: var(--graph-point-2) !important;
+  color: var(--graph-point-2) !important;
+  background-color: rgba(255, 183, 183, 0.15) !important;
+  box-shadow: 0 0 8px rgba(255, 183, 183, 0.5) !important;
+}
+
+.emf-tile .btn-level-selected[data-level="3"] {
+  border-color: var(--graph-point-3) !important;
+  color: var(--graph-point-3) !important;
+  background-color: rgba(255, 93, 93, 0.15) !important;
+  box-shadow: 0 0 8px rgba(255, 93, 93, 0.5) !important;
+}
+
+.emf-tile .btn-level-selected[data-level="4"] {
+  border-color: var(--graph-point-4) !important;
+  color: var(--graph-point-4) !important;
+  background-color: rgba(255, 0, 0, 0.15) !important;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.5) !important;
+}

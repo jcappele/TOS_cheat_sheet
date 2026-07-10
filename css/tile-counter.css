@@ -71,11 +71,11 @@
 }
 
 .btn-counter.btn-increment {
-  border-color: #4caf50;
-  color: #4caf50;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
 }
 
 .btn-counter.btn-decrement {
-  border-color: #f44336;
-  color: #f44336;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
 }

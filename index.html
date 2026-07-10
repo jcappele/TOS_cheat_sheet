@@ -25,10 +25,10 @@
             <section class="tile thermal-tile" id="thermalTile">
                 <h2 class="tile-title">Thermal</h2>
                 <div class="button-group">
-                    <button class="btn-thermal btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Mild (0.5°C to 4.5°C | 33.0°F to 40.0°F)">Level 1</button>
-                    <button class="btn-thermal btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate (0.0°C to 9.5°C | 32.0°F to 15.0°F)">Level 2</button>
-                    <button class="btn-thermal btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Significant (-13.3°C to -10.0°C | 8.0°F to 14°F)">Level 3</button>
-                    <button class="btn-thermal btn-level" data-level="4" aria-label="Level 4" data-tooltip="Level 4 - Frigid (-20.5°C to -13.9°C | -0.5°F to 7.0°F)">Level 4</button>
+                    <button class="btn-thermal btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-thermal btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-thermal btn-level" data-level="3" aria-label="Level 3">3</button>
+                    <button class="btn-thermal btn-level" data-level="4" aria-label="Level 4">4</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="thermalCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -37,13 +37,19 @@
                     <button class="btn-control" id="thermalUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="thermalReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Mild (0.5°C to 4.5°C | 33.0°F to 40.0°F)</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Moderate (0.0°C to 9.5°C | 32.0°F to 15.0°F)</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Significant (-13.3°C to -10.0°C | 8.0°F to 14°F)</div>
+                    <div class="level-desc"><strong>Level 4:</strong> Frigid (-20.5°C to -13.9°C | -0.5°F to 7.0°F)</div>
+                </div>
             </section>
             <section class="tile audio-tile" id="audioTile">
                 <h2 class="tile-title">Audio</h2>
                 <div class="button-group">
-                    <button class="btn-audio btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Unintelligible Sounds: Nonsensical sounds, incoherent speech and garbled noises with no discernible words or phrases.">Level 1</button>
-                    <button class="btn-audio btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Single Word Responses: Short, distinct words that, although minimal, are clear and direct.">Level 2</button>
-                    <button class="btn-audio btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Intelligible Phrases: Complete, understandable phrases and coherent speech.">Level 3</button>
+                    <button class="btn-audio btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-audio btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-audio btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="audioCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -52,14 +58,19 @@
                     <button class="btn-control" id="audioUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="audioReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Unintelligible Sounds - Nonsensical sounds, incoherent speech and garbled noises with no discernible words or phrases.</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Single Word Responses - Short, distinct words that, although minimal, are clear and direct.</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Intelligible Phrases - Complete, understandable phrases and coherent speech.</div>
+                </div>
             </section>
             <section class="tile emf-tile" id="emfTile">
                 <h2 class="tile-title">EMF</h2>
                 <div class="button-group">
-                    <button class="btn-emf btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Weak Anomalies (1.5 to 2.49 mG)">Level 1</button>
-                    <button class="btn-emf btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate Disturbances (2.55 to 9.99 mG)">Level 2</button>
-                    <button class="btn-emf btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Strong Emissions (10 to 19.99 mG)">Level 3</button>
-                    <button class="btn-emf btn-level" data-level="4" aria-label="Level 4" data-tooltip="Level 4 - Overwhelming Fields (20+ mG)">Level 4</button>
+                    <button class="btn-emf btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-emf btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-emf btn-level" data-level="3" aria-label="Level 3">3</button>
+                    <button class="btn-emf btn-level" data-level="4" aria-label="Level 4">4</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="emfCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -68,13 +79,19 @@
                     <button class="btn-control" id="emfUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="emfReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Weak Anomalies (1.5 to 2.49 mG)</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Moderate Disturbances (2.55 to 9.99 mG)</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Strong Emissions (10 to 19.99 mG)</div>
+                    <div class="level-desc"><strong>Level 4:</strong> Overwhelming Fields (20+ mG)</div>
+                </div>
             </section>
             <section class="tile radiation-tile" id="radiationTile">
                 <h2 class="tile-title">Radiation</h2>
                 <div class="button-group">
-                    <button class="btn-radiation btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Minimal (CPM Range: 100 to 500)">Level 1</button>
-                    <button class="btn-radiation btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate (CPM Range: 501 to 1000)">Level 2</button>
-                    <button class="btn-radiation btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Intense (CPM Range: 1001 to 2000)">Level 3</button>
+                    <button class="btn-radiation btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-radiation btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-radiation btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="radiationCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -83,13 +100,18 @@
                     <button class="btn-control" id="radiationUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="radiationReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Minimal (CPM Range: 100 to 500)</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Moderate (CPM Range: 501 to 1000)</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Intense (CPM Range: 1001 to 2000)</div>
+                </div>
             </section>
             <section class="tile uv-tile" id="uvTile">
                 <h2 class="tile-title">UV</h2>
                 <div class="button-group">
-                    <button class="btn-uv btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Faint traces (Subtle, barely visible markings or slight discoloration)">Level 1</button>
-                    <button class="btn-uv btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Moderate Residues (Glowing objects or surfaces, or intense patterns)">Level 2</button>
-                    <button class="btn-uv btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Easily Identifiable Patterns (Clear and distinct patterns or markings)">Level 3</button>
+                    <button class="btn-uv btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-uv btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-uv btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="uvCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -98,13 +120,18 @@
                     <button class="btn-control" id="uvUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="uvReset" aria-label="Reset tile">&#128465; Reset</button>
                 </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Faint traces - Subtle, barely visible markings or slight discoloration</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Moderate Residues - Glowing objects or surfaces, or intense patterns</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Easily Identifiable Patterns - Clear and distinct patterns or markings</div>
+                </div>
             </section>
             <section class="tile writing-tile" id="writingTile">
                 <h2 class="tile-title">Writing</h2>
                 <div class="button-group">
-                    <button class="btn-writing btn-level" data-level="1" aria-label="Level 1" data-tooltip="Level 1 - Incomprehensible Scribling (Writing would appear as chaotic scribbles)">Level 1</button>
-                    <button class="btn-writing btn-level" data-level="2" aria-label="Level 2" data-tooltip="Level 2 - Symbolic Enigmas (The messages might be in the form of intricate symbols)">Level 2</button>
-                    <button class="btn-writing btn-level" data-level="3" aria-label="Level 3" data-tooltip="Level 3 - Hostile Manifestifications (Exceptionally aggressive and malevolent messages)">Level 3</button>
+                    <button class="btn-writing btn-level" data-level="1" aria-label="Level 1">1</button>
+                    <button class="btn-writing btn-level" data-level="2" aria-label="Level 2">2</button>
+                    <button class="btn-writing btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
                 <div class="graph-container">
                     <canvas id="writingCanvas" class="graph-canvas" width="800" height="180"></canvas>
@@ -112,6 +139,11 @@
                 <div class="control-buttons">
                     <button class="btn-control" id="writingUndo" aria-label="Remove last point">&#8617; Undo</button>
                     <button class="btn-control" id="writingReset" aria-label="Reset tile">&#128465; Reset</button>
+                </div>
+                <div class="level-descriptions">
+                    <div class="level-desc"><strong>Level 1:</strong> Incomprehensible Scribling - Writing would appear as chaotic scribbles</div>
+                    <div class="level-desc"><strong>Level 2:</strong> Symbolic Enigmas - The messages might be in the form of intricate symbols</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Hostile Manifestifications - Exceptionally aggressive and malevolent messages</div>
                 </div>
             </section>
         </div>
@@ -164,5 +196,6 @@
     <script src="js/tiles/uv-tile.js"></script>
     <script src="js/tiles/writing-tile.js"></script>
     <script src="js/tiles/tile-counter.js"></script>
+    <script src="js/proofButtonsManager.js"></script>
 </body>
 </html>
