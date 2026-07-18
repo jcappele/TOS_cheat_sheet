@@ -24,12 +24,12 @@
   };
 
   function renderGhostTiles() {
-    var ghostsContainer = document.getElementById('ghostsContainer');
-    if (!ghostsContainer) return;
+    var ghostsContainerInner = document.getElementById('ghostsContainerInner');
+    if (!ghostsContainerInner) return;
 
     var ghostData = window.__ProofTrustEngine._getState ? window.__ProofTrustEngine._getState().ghostScores : [];
     if (!ghostData || ghostData.length === 0) {
-      ghostsContainer.innerHTML = '<div class="ghosts-placeholder">Top 3 Ghosts — Coming Soon</div>';
+      ghostsContainerInner.innerHTML = '<div class="ghosts-placeholder">Top 3 Ghosts — Coming Soon</div>';
       return;
     }
 
@@ -42,8 +42,8 @@
       container.appendChild(tile);
     }
 
-    ghostsContainer.innerHTML = '';
-    ghostsContainer.appendChild(container);
+    ghostsContainerInner.innerHTML = '';
+    ghostsContainerInner.appendChild(container);
     state.ghostTiles = {};
 
     var tiles = container.querySelectorAll('.ghost-tile');

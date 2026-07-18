@@ -17,6 +17,10 @@
     False: 0
   };
 
+  var CONFIG = {
+    eliminationThreshold: 50
+  };
+
   var GHOST_DATA = {
     banshee: {
       proofs: ['audio', 'emf', 'radiation'],
@@ -225,32 +229,70 @@
     currentTime: 0
   };
 
+  var PROOF_MIN_LEVELS = {
+    thermal: 3,
+    audio: 3,
+    emf: 4,
+    radiation: 3,
+    uv: 3,
+    writing: 3
+  };
+
+  var PROOF_MIN_POINTS = {
+    thermal: 3,
+    audio: 3,
+    emf: 4,
+    radiation: 3,
+    uv: 3,
+    writing: 3
+  };
+
   function initProofData() {
     var proofTypes = ['thermal', 'audio', 'emf', 'radiation', 'uv', 'writing'];
     for (var i = 0; i < proofTypes.length; i++) {
       var type = proofTypes[i];
       if (!state.proofData[type]) {
-        state.proofData[type] = { points: [], maxLevel: 0 };
+        state.proofData[type] = { points: [], maxLevel: 0, validCount: 0, invalidCount: 0 };
       }
       if (!state.trustScores[type]) {
-        state.trustScores[type] = { level: TRUST_LEVELS.UNSURE, score: 0 };
+        state.trustScores[type] = { level: TRUST_LEVELS.UNSURE, score: 0, validCount: 0, invalidCount: 0 };
       }
     }
   }
 
   function registerProof(type, points, maxLevel) {
     initProofData();
-    state.proofData[type] = { points: points, maxLevel: maxLevel };
+    state.proofData[type] = { points: points, maxLevel: maxLevel, validCount: 0, invalidCount: 0 };
+    countProofs(type);
     calculateTrustScore(type);
     calculateGhostScores();
+  }
+
+  function countProofs(type) {
+    var data = state.proofData[type];
+    if (!data || !data.points) return;
+    var minLevel = PROOF_MIN_LEVELS[type] || 3;
+    var validCount = 0;
+    var invalidCount = 0;
+    for (var i = 0; i < data.points.length; i++) {
+      if (data.points[i].level >= minLevel) {
+        validCount++;
+      } else {
+        invalidCount++;
+      }
+    }
+    data.validCount = validCount;
+    data.invalidCount = invalidCount;
   }
 
   function calculateTrustScore(proofType) {
     var data = state.proofData[proofType];
     if (!data || !data.points || data.points.length === 0) {
-      state.trustScores[proofType] = { level: TRUST_LEVELS.UNSURE, score: 0 };
+      state.trustScores[proofType] = { level: TRUST_LEVELS.UNSURE, score: 0, validCount: 0, invalidCount: 0 };
       return state.trustScores[proofType];
     }
+
+    countProofs(proofType);
 
     var result;
 
@@ -266,16 +308,23 @@
         break;
     }
 
+    if (!result.validCount) result.validCount = data.validCount || 0;
+    if (!result.invalidCount) result.invalidCount = data.invalidCount || 0;
+
     state.trustScores[proofType] = result;
 
     document.dispatchEvent(new CustomEvent('trustScoreUpdated', {
-      detail: { proofType: proofType, score: result.score, level: result.level }
+      detail: { proofType: proofType, score: result.score, level: result.level, validCount: result.validCount, invalidCount: result.invalidCount }
     }));
 
     return result;
   }
 
   function calculateThermalTrust(points, maxLevel) {
+    var data = state.proofData['thermal'];
+    var validCount = data ? data.validCount : 0;
+    var invalidCount = data ? data.invalidCount : 0;
+
     var hasFreezing = false;
     for (var i = 0; i < points.length; i++) {
       if (points[i].level >= 3) {
@@ -283,8 +332,13 @@
         break;
       }
     }
-    if (hasFreezing) {
-      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed };
+    if (hasFreezing && invalidCount === 0) {
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
+    }
+    if (hasFreezing && invalidCount > 0) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.CONFIDENT : TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
     }
 
     var mesuresNiveau4 = [];
@@ -298,32 +352,46 @@
       }
     }
 
-    var duration = points[points.length - 1].time - points[0].time;
-
     if (mesuresNiveau4.length >= 5) {
-      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed };
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
     if (mesuresNiveau4.length >= 3 && isStable(mesuresNiveau4)) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresNiveau3.length >= 5) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+    if (mesuresNiveau4.length >= 3) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (mesuresNiveau3.length >= 3 && isStable(mesuresNiveau3)) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (mesuresNiveau3.length >= 3) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 70, validCount: validCount, invalidCount: invalidCount };
     }
 
     if (mesuresNiveau4.length >= 2 || mesuresNiveau3.length >= 2) {
-      return { level: TRUST_LEVELS.MIXED, score: TRUST_SCORES.Mixed };
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.MIXED : TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (points.length >= 2) {
-      return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    if (validCount >= 1) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.CONFIDENT : TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
     }
 
-    return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    return { level: TRUST_LEVELS.FALSE, score: TRUST_SCORES.False, validCount: validCount, invalidCount: invalidCount };
   }
 
   function calculateEmfTrust(points, maxLevel) {
+    var data = state.proofData['emf'];
+    var validCount = data ? data.validCount : 0;
+    var invalidCount = data ? data.invalidCount : 0;
+
     var hasMaxLevel = false;
     for (var i = 0; i < points.length; i++) {
       if (points[i].level === 5) {
@@ -332,7 +400,7 @@
       }
     }
     if (hasMaxLevel) {
-      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed };
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
     var mesuresNiveau5 = [];
@@ -347,29 +415,54 @@
     }
 
     if (mesuresNiveau5.length >= 5) {
-      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed };
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
     if (mesuresNiveau5.length >= 3 && isStable(mesuresNiveau5)) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresNiveau4.length >= 5) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+    if (mesuresNiveau4.length >= 4) {
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresNiveau5.length >= 2 || mesuresNiveau4.length >= 2) {
-      return { level: TRUST_LEVELS.MIXED, score: TRUST_SCORES.Mixed };
+    if (mesuresNiveau4.length >= 3 && isStable(mesuresNiveau4)) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (points.length >= 2) {
-      return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    if (mesuresNiveau4.length >= 3) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.CONFIDENT : TRUST_LEVELS.MIXED, score: score, validCount: validCount, invalidCount: invalidCount };
     }
 
-    return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    if (mesuresNiveau4.length >= 2) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.CONFIDENT : TRUST_LEVELS.MIXED, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 1) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(70 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.CONFIDENT : TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    return { level: TRUST_LEVELS.FALSE, score: TRUST_SCORES.False, validCount: validCount, invalidCount: invalidCount };
   }
 
   function calculateStandardProofTrust(points, maxLevel) {
+    var proofType = null;
+    for (var type in PROOF_MIN_LEVELS) {
+      if (PROOF_MIN_LEVELS[type] === maxLevel && type !== 'thermal' && type !== 'emf') {
+        proofType = type;
+        break;
+      }
+    }
+    var data = proofType ? state.proofData[proofType] : null;
+    var validCount = data ? data.validCount : 0;
+    var invalidCount = data ? data.invalidCount : 0;
+
     var mesuresParNiveau = {};
     for (var k = 1; k <= maxLevel; k++) {
       mesuresParNiveau[k] = [];
@@ -385,37 +478,91 @@
     var mesuresMax = mesuresParNiveau[maxLevel] || [];
     var mesuresMaxMoins1 = mesuresParNiveau[maxLevel - 1] || [];
 
+    if (validCount === 0) {
+      return { level: TRUST_LEVELS.FALSE, score: TRUST_SCORES.False, validCount: validCount, invalidCount: invalidCount };
+    }
+
     if (isDecreasing(points)) {
       if (mesuresMax.length === 0 && mesuresMaxMoins1.length === 0) {
-        return { level: TRUST_LEVELS.FALSE, score: TRUST_SCORES.False };
+        return { level: TRUST_LEVELS.FALSE, score: TRUST_SCORES.False, validCount: validCount, invalidCount: invalidCount };
       }
       if (mesuresMax.length >= 3) {
-        return { level: TRUST_LEVELS.MIXED, score: TRUST_SCORES.Mixed };
+        var ratio = validCount / (validCount + invalidCount);
+        var score = Math.round(55 * ratio);
+        return { level: ratio >= 0.5 ? TRUST_LEVELS.MIXED : TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
       }
-      return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(40 * ratio);
+      return { level: ratio >= 0.5 ? TRUST_LEVELS.UNSURE : TRUST_LEVELS.FALSE, score: score, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresMax.length >= 5) {
-      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed };
+    if (validCount >= 3 && invalidCount === 0) {
+      return { level: TRUST_LEVELS.GUARANTEED, score: TRUST_SCORES.Guaranteed, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresMax.length >= 3 && isStable(mesuresMax)) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+    if (validCount >= 3 && invalidCount === 1) {
+      return { level: TRUST_LEVELS.GUARANTEED, score: 95, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresMaxMoins1.length >= 5) {
-      return { level: TRUST_LEVELS.CONFIDENT, score: TRUST_SCORES.Confident };
+    if (validCount >= 3 && invalidCount === 2) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (mesuresMax.length >= 2 || mesuresMaxMoins1.length >= 2) {
-      return { level: TRUST_LEVELS.MIXED, score: TRUST_SCORES.Mixed };
+    if (validCount >= 3 && invalidCount === 3) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 70, validCount: validCount, invalidCount: invalidCount };
     }
 
-    if (points.length >= 2) {
-      return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    if (validCount >= 3 && isStable(mesuresMax)) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
     }
 
-    return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure };
+    if (validCount >= 2 && invalidCount === 0) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 2 && invalidCount === 1 && isStable(mesuresMax)) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 85, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 2 && invalidCount === 1) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 70, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 2 && invalidCount === 2) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(55 * ratio);
+      return { level: TRUST_LEVELS.MIXED, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 2 && invalidCount === 3) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(40 * ratio);
+      return { level: TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 1 && invalidCount === 0) {
+      return { level: TRUST_LEVELS.CONFIDENT, score: 70, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 1 && invalidCount === 1) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(50 * ratio);
+      return { level: TRUST_LEVELS.MIXED, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 1 && invalidCount === 2) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(35 * ratio);
+      return { level: TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    if (validCount >= 1 && invalidCount === 3) {
+      var ratio = validCount / (validCount + invalidCount);
+      var score = Math.round(25 * ratio);
+      return { level: TRUST_LEVELS.UNSURE, score: score, validCount: validCount, invalidCount: invalidCount };
+    }
+
+    return { level: TRUST_LEVELS.UNSURE, score: TRUST_SCORES.Unsure, validCount: validCount, invalidCount: invalidCount };
   }
 
   function isDecreasing(points) {
@@ -452,19 +599,44 @@
     return stdDev < 120;
   }
 
+  function isStableProof(points, maxLevel) {
+    for (var i = 0; i < points.length; i++) {
+      if (points[i].level !== maxLevel) {
+        return false;
+      }
+    }
+    return points.length >= 2;
+  }
+
+  function isDecreasingProof(points) {
+    if (points.length < 2) {
+      return false;
+    }
+    var lastLevel = points[points.length - 1].level;
+    var firstLevel = points[0].level;
+    return lastLevel < firstLevel;
+  }
+
+  function calculateProofScore(proofType) {
+    var trust = calculateTrustScore(proofType);
+    return { level: trust.level, score: trust.score, validCount: trust.validCount, invalidCount: trust.invalidCount };
+  }
+
   function calculateGhostScores() {
     var validProofsCount = 0;
     var totalWeight = 0;
     var proofWeights = {};
+    var proofScores = {};
 
     var proofTypes = ['thermal', 'audio', 'emf', 'radiation', 'uv', 'writing'];
     for (var i = 0; i < proofTypes.length; i++) {
       var type = proofTypes[i];
-      var trust = state.trustScores[type];
-      if (trust && trust.level !== TRUST_LEVELS.FALSE) {
-        proofWeights[type] = trust.score;
+      var score = calculateProofScore(type);
+      proofScores[type] = score;
+      if (score.score >= CONFIG.eliminationThreshold) {
+        proofWeights[type] = score.score;
         validProofsCount++;
-        totalWeight += trust.score;
+        totalWeight += score.score;
       } else {
         proofWeights[type] = 0;
       }
@@ -495,12 +667,12 @@
 
       for (var p = 0; p < ghost.proofs.length; p++) {
         var proofType = ghost.proofs[p];
-        var trust = state.trustScores[proofType];
-        var badge = { type: proofType, level: trust ? trust.level : TRUST_LEVELS.UNSURE, score: trust ? trust.score : 0 };
+        var score = proofScores[proofType] || { level: TRUST_LEVELS.UNSURE, score: 0 };
+        var badge = { type: proofType, level: score.level, score: score.score };
         proofBadges[proofType] = badge;
 
-        if (trust && trust.level !== TRUST_LEVELS.FALSE) {
-          ghostScore += trust.score;
+        if (score.score >= CONFIG.eliminationThreshold) {
+          ghostScore += score.score;
           ghostValidProofs++;
         }
       }
@@ -525,8 +697,19 @@
   }
 
   function emitGhostScores() {
+    var totalValid = 0;
+    var totalInvalid = 0;
+    var proofTypes = ['thermal', 'audio', 'emf', 'radiation', 'uv', 'writing'];
+    for (var i = 0; i < proofTypes.length; i++) {
+      var type = proofTypes[i];
+      var data = state.proofData[type];
+      if (data) {
+        totalValid += data.validCount || 0;
+        totalInvalid += data.invalidCount || 0;
+      }
+    }
     document.dispatchEvent(new CustomEvent('ghostScoresUpdated', {
-      detail: { topGhosts: state.ghostScores.slice(0, 3) }
+      detail: { topGhosts: state.ghostScores.slice(0, 3), validProofs: totalValid, invalidProofs: totalInvalid }
     }));
   }
 
@@ -714,17 +897,26 @@
   function reset() {
     state.proofData = {};
     state.trustScores = {};
-    state.ghostScores = [];
     initProofData();
-    emitGhostScores();
+    calculateGhostScores();
   }
 
   window.__ProofTrustEngine = {
     registerProof: registerProof,
     calculateTrustScore: calculateTrustScore,
+    calculateProofScore: calculateProofScore,
     calculateGhostScores: calculateGhostScores,
     getTopGhosts: getTopGhosts,
     getProofTrustLevel: getProofTrustLevel,
+    getProofScore: calculateProofScore,
+    setConfig: function(newConfig) {
+      if (newConfig.eliminationThreshold !== undefined) {
+        CONFIG.eliminationThreshold = newConfig.eliminationThreshold;
+      }
+    },
+    getConfig: function() {
+      return CONFIG;
+    },
     applyBehaviorFilter: applyBehaviorFilter,
     reset: reset,
     _getState: function () { return state; }

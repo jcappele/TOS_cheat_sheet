@@ -30,6 +30,7 @@
                     <button class="btn-thermal btn-level" data-level="3" aria-label="Level 3">3</button>
                     <button class="btn-thermal btn-level" data-level="4" aria-label="Level 4">4</button>
                 </div>
+                <div class="proof-confidence-indicator" id="thermalProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="thermalCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -40,7 +41,7 @@
                 <div class="level-descriptions">
                     <div class="level-desc"><strong>Level 1:</strong> Mild (0.5°C to 4.5°C | 33.0°F to 40.0°F)</div>
                     <div class="level-desc"><strong>Level 2:</strong> Moderate (0.0°C to 9.5°C | 32.0°F to 15.0°F)</div>
-                    <div class="level-desc"><strong>Level 3:</strong> Significant (-13.3°C to -10.0°C | 8.0°F to 14°F)</div>
+                    <div class="level-desc"><strong>Level 3:</strong> Significant (-13°C à 0°C | 8.0°F to 32.0°F)</div>
                     <div class="level-desc"><strong>Level 4:</strong> Frigid (-20.5°C to -13.9°C | -0.5°F to 7.0°F)</div>
                 </div>
             </section>
@@ -51,6 +52,7 @@
                     <button class="btn-audio btn-level" data-level="2" aria-label="Level 2">2</button>
                     <button class="btn-audio btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
+                <div class="proof-confidence-indicator" id="audioProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="audioCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -72,6 +74,7 @@
                     <button class="btn-emf btn-level" data-level="3" aria-label="Level 3">3</button>
                     <button class="btn-emf btn-level" data-level="4" aria-label="Level 4">4</button>
                 </div>
+                <div class="proof-confidence-indicator" id="emfProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="emfCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -93,6 +96,7 @@
                     <button class="btn-radiation btn-level" data-level="2" aria-label="Level 2">2</button>
                     <button class="btn-radiation btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
+                <div class="proof-confidence-indicator" id="radiationProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="radiationCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -113,6 +117,7 @@
                     <button class="btn-uv btn-level" data-level="2" aria-label="Level 2">2</button>
                     <button class="btn-uv btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
+                <div class="proof-confidence-indicator" id="uvProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="uvCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -133,6 +138,7 @@
                     <button class="btn-writing btn-level" data-level="2" aria-label="Level 2">2</button>
                     <button class="btn-writing btn-level" data-level="3" aria-label="Level 3">3</button>
                 </div>
+                <div class="proof-confidence-indicator" id="writingProofIndicator"></div>
                 <div class="graph-container">
                     <canvas id="writingCanvas" class="graph-canvas" width="800" height="180"></canvas>
                 </div>
@@ -206,12 +212,34 @@
         <!-- Section Fantômes -->
         <section class="tile ghosts-container" id="ghostsContainer">
             <h2 class="tile-title">Top Ghosts</h2>
-            <div class="ghosts-placeholder">Top 3 Ghosts — Coming Soon</div>
+            <div class="ghosts-container-inner" id="ghostsContainerInner">
+                <!-- Les tuiles fantômes seront injectées ici -->
+            </div>
         </section>
     </main>
     <footer class="ghost-bar">
         <div class="ghost-bar-content" id="ghostBar">
-            <span class="ghost-placeholder">Top 3 Ghosts — Coming Soon</span>
+            <div class="proof-stats-bar" id="proofStats">
+                <div class="proof-counter">
+                    <span class="proof-counter-label">Vraies preuves</span>
+                    <button class="proof-counter-btn positive" data-target="validProofsCount" data-action="decrease">−</button>
+                    <input type="number" class="proof-counter-input positive" id="validProofsCount" min="0" value="0">
+                    <button class="proof-counter-btn positive" data-target="validProofsCount" data-action="increase">+</button>
+                </div>
+                <div class="proof-counter">
+                    <span class="proof-counter-label">Fausses preuves</span>
+                    <button class="proof-counter-btn negative" data-target="invalidProofsCount" data-action="decrease">−</button>
+                    <input type="number" class="proof-counter-input negative" id="invalidProofsCount" min="0" value="0">
+                    <button class="proof-counter-btn negative" data-target="invalidProofsCount" data-action="increase">+</button>
+                </div>
+                <div class="proof-counter">
+                    <span class="proof-counter-label">Seuil d'élimination</span>
+                    <button class="proof-counter-btn threshold" data-target="eliminationThresholdInput" data-action="decrease">−</button>
+                    <input type="number" class="proof-counter-input threshold" id="eliminationThresholdInput" min="0" max="100" value="50">
+                    <button class="proof-counter-btn threshold" data-target="eliminationThresholdInput" data-action="increase">+</button>
+                    <span class="proof-counter-unit">%</span>
+                </div>
+            </div>
         </div>
     </footer>
     <div class="confirmation-overlay" id="confirmationOverlay">
@@ -228,6 +256,9 @@
     <script src="js/timer.js"></script>
     <script src="js/graph-renderer.js"></script>
     <script src="js/engine/proof-trust-engine.js"></script>
+    <script src="js/proofConfig.js"></script>
+    <script src="js/proofIndicator.js"></script>
+    <script src="js/proofStats.js"></script>
     <script src="js/tiles/thermal-tile.js"></script>
     <script src="js/tiles/audio-tile.js"></script>
     <script src="js/tiles/emf-tile.js"></script>

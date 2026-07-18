@@ -50,6 +50,44 @@
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.proof-config {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.proof-config label {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.proof-config input {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.proof-config input:focus {
+  outline: none;
+  border-color: var(--deezer-purple);
+  box-shadow: 0 0 4px rgba(162, 56, 255, 0.3);
+}
+
+.proof-config span {
+  font-weight: 600;
+}
+
 .header-right {
   display: flex;
   align-items: center;
